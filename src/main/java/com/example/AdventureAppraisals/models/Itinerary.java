@@ -1,17 +1,9 @@
 package com.example.AdventureAppraisals.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
-public class Itinerary {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String name;
+public class Itinerary extends AbstractEntity{
 
     private int itineraryDetailsId;
 
@@ -19,22 +11,9 @@ public class Itinerary {
 
     public Itinerary() {};
 
-    public Itinerary(String name, int itineraryDetailsId, int destinationId) {
-        this.name = name;
+    public Itinerary(int itineraryDetailsId, int destinationId) {
         this.itineraryDetailsId = itineraryDetailsId;
         this.destinationId = destinationId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getItineraryDetails() {
