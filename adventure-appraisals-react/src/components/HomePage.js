@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import NavigationBar from './NavigationBar';
 
 let logo = "Adventure Appraisals"
 
@@ -8,9 +9,9 @@ return (
 <NavigationBar />
 <header>
 <h1> Welcome to Adventure Appraisals </h1>
-</header
-)
+</header>
+</div>
 
-}
+)};
 
 export default HomePage;
