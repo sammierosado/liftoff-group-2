@@ -11,8 +11,23 @@ public class Destination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String name;
+
+    public Destination() {}
+
+    public Destination(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
