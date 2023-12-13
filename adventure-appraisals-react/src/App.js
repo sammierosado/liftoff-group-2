@@ -11,7 +11,7 @@ function App() {
     <div className="App">
         <NavigationBar />
     <Routes>
-          <Route path="/" exact component={HomePage} />
+          <Route path="/" element={<HomePage />} index />
     </Routes>
 
       <header className="App-header">
@@ -28,7 +28,7 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
+     </div>
     </Router>
   )
 };
