@@ -1,9 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import NavigationBar from './components/NavigationBar';
+
 
 function App() {
   return (
+  <Router>
     <div className="App">
+        <NavigationBar />
+    <Routes>
+          <Route path="/" element={<HomePage />} index />
+    </Routes>
+
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -18,8 +28,9 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
-  );
-}
+     </div>
+    </Router>
+  )
+};
 
 export default App;
