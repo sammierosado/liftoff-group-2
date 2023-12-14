@@ -18,6 +18,8 @@ public abstract class AbstractEntity {
         return id;
     }
 
+    public AbstractEntity(){}
+
     public String getName() {
         return name;
     }
