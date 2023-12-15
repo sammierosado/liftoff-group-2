@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/itineraries")
 public class ItineraryController {
@@ -55,4 +57,38 @@ public class ItineraryController {
         destinationRepository.save(newDestination);
         return "redirect:/itineraries";
     }
+    @GetMapping("/delete")
+    public String displayDeleteItineraryForm(Model model){
+        model.addAttribute("title","DeleteItineraries");
+        model.addAttribute("Itineraries",itineraryRepository.findAll());
+        model.addAttribute("ItineraryDetails",itineraryDetailsRepository.findAll());
+        model.addAttribute("Destination",destinationRepository.findAll());
+
+        return "itinerary/delete";
+    }
+
+    @PostMapping("/delete")
+    public String processDeleteItinerariesForm(@RequestParam (required = false) int [] itineraryIds,@RequestParam (required = false)int [] itineraryDetailsIds,@RequestParam (required = false) int [] destinationIds, Model model){
+        if(itineraryIds!= null){
+            for(int id : itineraryIds){
+                itineraryRepository.deleteById(id);
+            }
+        }
+        if(itineraryDetailsIds!= null){
+            for(int id : itineraryDetailsIds){
+                itineraryDetailsRepository.deleteById(id);
+            }
+        }
+        if(destinationIds!= null){
+            for(int id : destinationIds){
+                destinationRepository.deleteById(id);
+            }
+        }
+        return "redirect:/itineraries";
+    }
+
+
+
+
+
 }

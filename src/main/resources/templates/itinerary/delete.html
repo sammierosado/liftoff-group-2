@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method = "post" th:action="@{/itineraries/delete}"  >
+    <table>
+
+
+        <tr>
+            <th>ITINERARY NAME</th>
+            <th:block th:each="itinerary : ${Itineraries}">
+                <label>
+                    <td><th:block th:text="${itinerary.name}"></th:block>
+                        <input type="checkbox" name="itineraryIds" th:value="${itinerary.id}" /></td>
+                </label>
+
+            </th:block></tr>
+
+        <tr><th>FROM CITY</th>
+            <th:block th:each="itineraryDetails : ${ItineraryDetails}">
+
+                <label>
+                    <td><th:block th:text="${itineraryDetails.fromCity}"></th:block>
+                        <input type="checkbox" name="itineraryDetailsIds" th:value="${itineraryDetails.id}" /></td>
+                </label>
+
+            </th:block></tr>
+
+        <tr><th>TO CITY</th>
+            <th:block th:each="itineraryDetails : ${ItineraryDetails}">
+
+                <label>
+                    <td><th:block th:text="${itineraryDetails.toCity}"></th:block>
+                        <input type="checkbox" name="itineraryDetailsToCity" th:value="${itineraryDetails.toCity}" /></td>
+                </label>
+
+            </th:block></tr>
+        <tr><th>TRAVEL START DATE TIME</th>
+            <th:block th:each="itineraryDetails : ${ItineraryDetails}">
+
+                <label>
+                    <td><th:block th:text="${itineraryDetails.travelStartDateTime}"></th:block>
+                        <input type="checkbox" name="itineraryDetailsTravelStart" th:value="${itineraryDetails.travelStartDateTime}" /></td>
+                </label>
+
+            </th:block></tr>
+
+        <tr><th>TRAVEL END DATE TIME</th>
+            <th:block th:each="itineraryDetails : ${ItineraryDetails}">
+
+                <label>
+                    <td><th:block th:text="${itineraryDetails.travelEndDateTime}"></th:block>
+                        <input type="checkbox" name="itineraryDetailsTravelEnd" th:value="${itineraryDetails.travelEndDateTime}" /></td>
+                </label>
+
+            </th:block>
+        </tr>
+
+        <tr><th>DESTINATION SPOT</th>
+            <th:block th:each="destination : ${Destination}">
+
+                <label>
+                    <td><th:block th:text="${destination.name}"></th:block>
+                        <input type="checkbox" name="destinationIds" th:value="${destination.id}" /></td>
+                </label>
+
+            </th:block></tr>
+        <th><button type = "Submit"> Delete </button></th>
+        <tr>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
