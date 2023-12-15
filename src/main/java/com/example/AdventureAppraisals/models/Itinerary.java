@@ -1,34 +1,37 @@
 package com.example.AdventureAppraisals.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
 public class Itinerary extends AbstractEntity{
 
-    private int itineraryDetailsId;
+    @ManyToOne
+    private Destination destination;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ItineraryDetails itineraryDetails;
 
-    private int destinationId;
+    public Destination getDestination() {
+        return destination;
+    }
+
+    public ItineraryDetails getItineraryDetails() {
+        return itineraryDetails;
+    }
+
+    public void setDestination(Destination destination) {
+        this.destination = destination;
+    }
+
+    public void setItineraryDetails(ItineraryDetails itineraryDetails) {
+        this.itineraryDetails = itineraryDetails;
+    }
 
     public Itinerary() {};
 
-    public Itinerary(int itineraryDetailsId, int destinationId) {
-        this.itineraryDetailsId = itineraryDetailsId;
-        this.destinationId = destinationId;
-    }
 
-    public int getItineraryDetails() {
-        return itineraryDetailsId;
-    }
 
-    public void setItineraryDetails(int itineraryDetailsId) {
-        this.itineraryDetailsId = itineraryDetailsId;
-    }
-
-    public int getDestination() {
-        return destinationId;
-    }
-
-    public void setDestination(int destinationId) {
-        this.destinationId = destinationId;
-    }
 }

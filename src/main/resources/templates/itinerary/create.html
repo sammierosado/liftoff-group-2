@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method = "post" th:action="@{/itineraries/create}"  >
+    <label> Itinerary Name : <input type = "text" name = "itinerary.name" th:field="${itinerary.name}"  /></label><br />
+    <label> FromCity : <input type = "text"  name = "itinerary.itineraryDetails.fromCity" th:field="${itineraryDetails.fromCity}" /></label><br />
+    <label> ToCity : <input type = "text"  name = "itinerary.itineraryDetails.toCity" th:field="${itineraryDetails.toCity}" /></label><br />
+    <label> TravelStartDateTime <input type = "datetime-local"  name = "itinerary.itineraryDetails.travelStartDateTime" th:field="${itineraryDetails.travelStartDateTime}" /></label><br />
+    <label> TravelEndDateTime : <input type = "datetime-local"  name = "itinerary.itineraryDetails.travelEndDateTime" th:field="${itineraryDetails.travelEndDateTime}" /></label><br />
+    <label> DestinationSpot : <input type = "text"  name = "itinerary.destination.name" th:field="${destination.name}" /></label><br />
+    <button type = "Submit"> Create </button>
+
+</form>
+
+</body>
+</html>
