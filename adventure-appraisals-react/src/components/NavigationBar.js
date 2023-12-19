@@ -15,7 +15,7 @@ const NavigationBar = () => {
                     <Link to="/destinations">Destinations</Link>
                 </li>
                 <li>
-                    <Link to="/itineraries">Itineraries</Link>
+                    <a href="http://localhost:8080/itineraries">Itineraries</a>
                 </li>
                 <li>
                     <Link to="/search">Search</Link>
