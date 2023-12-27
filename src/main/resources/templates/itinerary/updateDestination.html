@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method = "post" th:action="@{/itineraries/updateDestination/{id}(id = ${destination.id})}" >
+    <input type="hidden" name="_method" value = "PUT" />
+    <table>
+
+        <tr>
+            <th>DESTINATION SPOT</th>
+            <thblock th:each = "destination : ${destination}">
+                <td><input type = "text" name = "name" th:value = "${destination.name}" th:field="${destination.name}"  /></td>
+
+            </thblock></tr>
+    </table>
+    <button type = "Submit" > Update </button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+   <meta charset="UTF-8">
+   <title>Title</title>
+</head>
+<body>
+<form method = "post" th:action="@{/itineraries/updateDetails/{id}(id = ${itineraryDetails.id})}" >
+   <input type="hidden" name="_method" value = "PATCH" />
+   <table>
+      <tr>
+         <th>FROM CITY</th>
+         <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+            <td><input type = "text" name = "fromCity" th:value = "${itineraryDetails.fromCity}" th:field="${itineraryDetails.fromCity}"  /><br /></td>
+
+         </th:block></tr>
+   </table>
+   <table>
+      <tr>
+         <th>TO CITY</th>
+         <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+            <td><input type = "text" name = "toCity" th:value = "${itineraryDetails.toCity}" th:field="${itineraryDetails.toCity}"  /></td>
+
+         </th:block></tr>
+   </table>
+   <table>
+      <tr>
+         <th>TRAVEL START DATE</th>
+         <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+            <td><input type = "text" name = "travelStartDateTime" th:value = "${itineraryDetails.travelStartDateTime}" th:field="${itineraryDetails.travelStartDateTime}"  /></td>
+
+         </th:block></tr>
+   </table>
+   <table>
+      <th>TRAVEL END DATE</th>
+      <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+         <td><input type = "text" name = "travelEndDateTime" th:value = "${itineraryDetails.travelEndDateTime}" th:field="${itineraryDetails.travelEndDateTime}"  /></td>
+
+      </th:block> </tr>
+   </table>
+   <button type = "Submit" > Update </button>
+</form>
+
+</body>
+</html>
+
