@@ -9,7 +9,7 @@
 <form method = "post" th:action="@{/itineraries/update/{id}(id = ${itinerary.id})}" th:object = "${itinerary}">
 <input type="hidden" name="_method" value = "PUT" />
 
-
+<h1> UPDATE ITINERARY NAME</h1>
     <table>
         <tr>
             <th>ITINERARY NAME</th>
@@ -22,5 +22,6 @@
     </table>
     <button type = "Submit" > Save </button>
 </form>
+<h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
 </body>
 </html>
