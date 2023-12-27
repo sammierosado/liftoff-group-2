@@ -5,6 +5,22 @@
     <title>Title</title>
 </head>
 <body>
+<nav>
+<table>
+    <tr>
+
+        <td>
+            <h3><a href = "http://localhost:8080/itineraries/create" >CREATE ITINERARIES</a></h3>
+        </td>
+        <td>
+            <h3><a href = "http://localhost:8080/itineraries/delete" >DELETE ITINERARIES</a></h3>
+        </td>
+
+
+    </tr>
+</table>
+</nav>
+<h1> ITINERARIES </h1>
 <table>
 
 
@@ -32,22 +48,21 @@
     <td th:text = "${itineraryDetails.travelStartDateTime}"></td>
     <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
     </th:block></tr>
+    <tr>
     <th>TRAVEL END DATE</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.travelEndDateTime}"></td>
     <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
     </th:block> </tr>
-    <tr></tr>
+    <tr>
     <th>DESTINATION SPOT</th>
-    <thblock th:each = "destination : ${Destination}">
+    <th:block th:each = "destination : ${Destination}">
     <td th:text = "${destination.name}"></td>
     <td><a th:href="@{/itineraries/updateDestination/{id}(id=${destination.id})}">Update</a></td>
-    </thblock></tr>
-    </tr>
-
+    </th:block></tr>
 
 
 </table>
-<a href="http://localhost:3000/">Go to homepage</a>
+<a href="http://localhost:3000/"> Go to homepage</a>
 </body>
 </html>

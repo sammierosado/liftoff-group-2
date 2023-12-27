@@ -6,6 +6,7 @@
 </head>
 <body>
 <form method = "post" th:action="@{/itineraries/delete}"  >
+    <h1> DELETE ITINERARIES </h1>
     <table>
 
 
@@ -64,14 +65,17 @@
 
                 <label>
                     <td><th:block th:text="${destination.name}"></th:block>
-                        <input type="checkbox" name="destinationIds" th:value="${destination.id}" /></td>
+                    <input type="checkbox" name="destinationIds" th:value="${destination.id}" /></td>
                 </label>
 
             </th:block></tr>
+
+        <tr>
         <th><button type = "Submit"> Delete </button></th>
         <tr>
         </tr>
     </table>
 </form>
+<h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
 </body>
 </html>
