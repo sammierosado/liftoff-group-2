@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method = "post" th:action = "@{/itineraries/search/{word}(word = ${word})}" >
+    <h1> SEARCH ITINERARY </h1>
+    <table>
+        <tr>
+            <th>SEARCH </th>
+            <td>  <input type = "text" name = "word" id = "word" /><br /></td>
+    </table>
+    <button type = "Submit"> Search</button>
+</form>
+<h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
+</body>
+</html>

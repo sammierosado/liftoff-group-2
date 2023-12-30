@@ -7,19 +7,16 @@ import com.example.AdventureAppraisals.models.Destination;
 import com.example.AdventureAppraisals.models.Itinerary;
 import com.example.AdventureAppraisals.models.ItineraryDetails;
 import jakarta.transaction.Transactional;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/itineraries")
@@ -233,6 +230,192 @@ public class ItineraryController {
         destinationRepository.save(destination);
         /*itineraryRepository.save(itinerary1);*/
         return "redirect:/itineraries";
+    }
+
+
+    @GetMapping("/search")
+    public String searchFormDisplay(Model model){
+        model.addAttribute("Tile","Search");
+        return "itinerary/searchForm";
+    }
+
+    @PostMapping("/search")
+    public String searchFormDisplay3(Model model){
+        model.addAttribute("Tile","Search");
+        return "itinerary/searchDisplay";
+    }
+
+    @GetMapping("/search/")
+    public String searchFormDisplay1(Model model,@RequestParam String word){
+        model.addAttribute("Tile","Search");
+        Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
+        Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
+        Iterable<Destination> destinationIterable = destinationRepository.findAll();
+        List<Itinerary> matchingItinerary = new ArrayList<>();
+        List<Destination> matchingDestination = new ArrayList<>();
+        for(Itinerary itinerary: itineraryIterable) {
+            if (itinerary.getName().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingItinerary.contains(itinerary)) {
+                matchingItinerary.add(itinerary);
+                break;
+            }
+            break;
+            }
+
+        }
+        if(matchingItinerary.isEmpty()) {
+            for (Itinerary itinerary : itineraryIterable) {
+
+                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
+                    if (!(itinerary.getName().toLowerCase().contains(word.toLowerCase()))) {
+                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
+                            if (!matchingItinerary.contains(itinerary)) {
+                                matchingItinerary.add(itinerary);
+                                break;
+                            }
+                            break;
+                        }
+                    }
+
+                }
+                continue;
+            }
+        }
+        model.addAttribute("itinerary",matchingItinerary);
+
+
+        List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
+        for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
+            if(itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+            if(itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+            if(itineraryDetails.getTravelStartDateTime().equals(word)){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+            if(itineraryDetails.getTravelEndDateTime().equals(word.toLowerCase())){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+        }
+        model.addAttribute("itineraryDetails",matchingItineraryDetails);
+        for(Destination destination: destinationIterable) {
+            if (destination.getName().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingDestination.contains(destination)) {
+                matchingDestination.add(destination);
+                break;
+            }
+            break;
+            }
+
+        }
+        if(matchingDestination.isEmpty()) {
+            for (Destination destination : destinationIterable) {
+                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
+                    if (!(destination.getName().toLowerCase().contains(word.toLowerCase()))) {
+                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
+                            if (!matchingDestination.contains(destination)) {
+                                matchingDestination.add(destination);
+                                break;
+                            }
+                            break;
+                        }
+                    }
+
+                }
+                continue;
+            }
+        }
+        model.addAttribute("destination",matchingDestination);
+
+        return "itinerary/searchDisplay";
+    }
+
+    @PostMapping("/search/")
+    public String processSearchForm(Model model,@RequestParam String word) {
+        model.addAttribute("Title", "SearchResults");
+        Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
+        Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
+        Iterable<Destination> destinationIterable = destinationRepository.findAll();
+        List<Itinerary> matchingItinerary = new ArrayList<>();
+        List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
+        List<Destination> matchingDestination = new ArrayList<>();
+        for(Itinerary itinerary: itineraryIterable) {
+            if (itinerary.getName().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingItinerary.contains(itinerary)) {
+                matchingItinerary.add(itinerary);
+                break;
+            }
+            break;
+            }
+
+        }
+        if(matchingItinerary.isEmpty()) {
+            for (Itinerary itinerary : itineraryIterable) {
+                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
+                    if (!(itinerary.getName().toLowerCase().contains(word.toLowerCase()))) {
+                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
+                            if (!matchingItinerary.contains(itinerary)) {
+                                matchingItinerary.add(itinerary);
+                                break;
+                            }
+                            break;
+                        }
+                    }
+
+                }
+                continue;
+            }
+        }
+        model.addAttribute("itinerary",matchingItinerary);
+
+        for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
+            if(itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+            if(itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+            if(itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+            if(itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())){
+                matchingItineraryDetails.add(itineraryDetails);
+            }
+        }
+        model.addAttribute("itineraryDetails",matchingItineraryDetails);
+        for(Destination destination: destinationIterable) {
+            if (destination.getName().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingDestination.contains(destination)) {
+                matchingDestination.add(destination);
+                break;
+                }
+                break;
+            }
+
+        }
+        if(matchingDestination.isEmpty()) {
+            for (Destination destination : destinationIterable) {
+
+                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
+                    if (!(destination.getName().toLowerCase().contains(word.toLowerCase()))) {
+                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
+                            if (!matchingDestination.contains(destination)) {
+                                matchingDestination.add(destination);
+                                break;
+                            }
+                            break;
+                        }
+
+                    }
+
+                }
+                continue;
+            }
+        }
+        model.addAttribute("destination",matchingDestination);
+        return "itinerary/searchDisplay";
     }
 
 
