@@ -1,17 +1,13 @@
 package com.example.AdventureAppraisals.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-public class ItineraryDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+public class ItineraryDetails extends AbstractEntity {
+    @OneToOne(mappedBy = "itineraryDetails")
+    private Itinerary itinerary;
     private String fromCity;
 
     private String toCity;
@@ -29,8 +25,12 @@ public class ItineraryDetails {
         this.travelEndDateTime = travelEndDateTime;
     }
 
-    public int getId() {
-        return id;
+    public void setItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+    }
+
+    public Itinerary getItinerary() {
+        return itinerary;
     }
 
     public String getFromCity() {
