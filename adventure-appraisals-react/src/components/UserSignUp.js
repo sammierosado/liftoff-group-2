@@ -1,50 +1,54 @@
 
 import React, { useState } from 'react';
+import firebase, { auth, firestore } from "../firebase";
 
 const UserSignUp = ({ onSignUp }) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [setConfirmPassword, setConfirmPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleSignUp = () => {
+    const handleUserSignUp = async () => {
 
-    if(password !== setConfirmPassword) {
+    if(password !== confirmPassword) {
         alert('Passwords must match');
         return;
     }
-
-    const newUser = {
-    username,
+    try {
+        const userCredential = await auth.createUserWithEmailAndPassword(
+    email,
     password,
-    };
+    );
+    console.log("User registered:", userCredential.user);
 
-    const signUpSuccessful = true;
-
-    if (signUpSuccessful){
-    OnSignUp(newUser);
-    } else {
-    alert('Unable to make account please try again later.');
+    if (onSignUp) {
+        onSignUp(userCredential.user);
+        }
+    } catch (error) {
+    console.error("Registration failed:", error.message);
     }
     };
+
 
     return(
     <div>
         <h3> User Sign Up </h3>
         <div>
-            <label>Username:</label>
-            <input type="text" value={username} onChange={(e)} => setUsername(e.target.value)} />
+            <label>Email:</label>
+            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
     </div>
     <div>
             <label>Password:</label>
-            <input type="text" value={password} onChange={(e)} => setPassword(e.target.value)} />
+            <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
     </div>
 
     <div>
             <label>Confirm Password:</label>
-            <input type="text" value={confirmPassword} onChange={(e)} => setConfirmPassword(e.target.value)} />
+            <input type="text" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
     </div>
-        <button onClick={handleSignUp}>Sign Up</button>
+        <button onClick={handleUserSignUp}>Sign Up</button>
     </div>
     );
 
 };
+
+export default UserSignUp;

@@ -3,6 +3,8 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import NavigationBar from './components/NavigationBar';
+import UserSignUp from './components/UserSignUp';
+import UserLogin from './components/Login';
 
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
         <NavigationBar />
     <Routes>
           <Route path="/" element={<HomePage />} index />
+          <Route path="/login" element={<UserLogin />} />
+
     </Routes>
 
       <header className="App-header">
