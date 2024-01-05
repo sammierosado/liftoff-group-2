@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> SEARCH RESULTS </h1>
+<table>
+
+
+    <tr>
+        <th>ITINERARY NAME</th>
+        <th:block th:each = "itinerary : ${itinerary}" >
+            <td th:text = "${itinerary.name}"></td>
+        </th:block></tr>
+    <tr>
+        <th>FROM CITY</th>
+        <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+            <td th:text = "${itineraryDetails.fromCity}"></td>
+        </th:block></tr>
+    <tr>
+        <th>TO CITY</th>
+        <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+            <td th:text = "${itineraryDetails.toCity}"></td>
+        </th:block></tr>
+    <tr>
+        <th>TRAVEL START DATE</th>
+        <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+            <td th:text = "${itineraryDetails.travelStartDateTime}"></td>
+        </th:block></tr>
+    <th>TRAVEL END DATE</th>
+    <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+        <td th:text = "${itineraryDetails.travelEndDateTime}"></td>
+    </th:block> </tr>
+    <tr>
+        <th>DESTINATION SPOT</th>
+        <th:block th:each = "destination : ${destination}">
+            <td th:text = "${destination.name}"></td>
+        </th:block></tr>
+
+</table>
+<h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
+</body>
+</html>

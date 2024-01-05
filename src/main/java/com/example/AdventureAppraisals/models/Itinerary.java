@@ -6,8 +6,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Iterator;
+import java.util.List;
+
 @Entity
-public class Itinerary extends AbstractEntity{
+public class Itinerary extends AbstractEntity {
 
     @ManyToOne
     private Destination destination;
@@ -31,7 +34,6 @@ public class Itinerary extends AbstractEntity{
     }
 
     public Itinerary() {};
-
 
 
 }
