@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/itineraries/upload/{id}(id=${Destination.id})}" method="post">
+    <input type="hidden" name="_method" value = "PUT" />
+    <input type="file" name="file" />
+    <button type="submit">Upload</button>
+</form>
+</body>
+</html>

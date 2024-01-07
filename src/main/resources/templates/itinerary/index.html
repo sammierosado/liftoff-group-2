@@ -64,6 +64,34 @@
     <td th:text = "${destination.name}"></td>
     <td><a th:href="@{/itineraries/updateDestination/{id}(id=${destination.id})}">Update</a></td>
     </th:block></tr>
+    <tr>
+
+        <th>DESTINATION SPOT IMAGE</th>
+        <th:block th:each = "destination : ${Destination}">
+            <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td><td></td>
+        </th:block>
+
+        <!--  <td><img th:src = "@{/image/Orlando1.jpeg}" />
+               "@{'data:image/jpeg;base64,' + T(com.example.AdventureAppraisals.models.ImageUtil).bytesToBase64(destination.image)}"
+                            </td><td></td>
+
+      <td><img th:src="@{/image/Seattle1.jpeg}" /></td><td></td>
+      <td><img th:src="@{/image/Pittsburg1.jpeg}" /></td><td></td> -->
+        <!--   th:src="@{'data:image/jpeg;base64,'+${base64EncodedImage}}" -->
+
+    </tr>
+    <tr>
+        <th></th>
+        <!-- <td><img th:src="@{/Orlando1.jpeg}" /></td><td></td>
+         <td><img th:src="@{/Seattle1.jpeg}" /></td><td></td>
+         <td><img th:src="@{/Pittsburg1.jpeg}" /></td><td></td> -->
+        <th:block th:each = "destination : ${Destination}">
+            <td><a th:href = "@{/itineraries/upload/{id}(id=${destination.id})}">Upload</a></td><td></td>
+        </th:block>
+    </tr>
+
+
+
 
 
 </table>
