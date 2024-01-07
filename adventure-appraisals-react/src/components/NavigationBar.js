@@ -12,13 +12,13 @@ const NavigationBar = () => {
                     <Link to="/userPage">User Page</Link>
                 </li>
                 <li>
-                    <Link to="/destinations">Destinations</Link>
+                    <a href = "http://localhost:8080/itineraries/destination">Destinations</a>
                 </li>
                 <li>
                     <a href="http://localhost:8080/itineraries">Itineraries</a>
                 </li>
                 <li>
-                    <Link to="/search">Search</Link>
+                    <a href="http://localhost:8080/itineraries/search">Search</a>
                 </li>
                 <li>
                     <Link to="/login">Login</Link>

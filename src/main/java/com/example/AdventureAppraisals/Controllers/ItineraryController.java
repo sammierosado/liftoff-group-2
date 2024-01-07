@@ -41,6 +41,12 @@ public class ItineraryController {
         return "itinerary/index";
     }
 
+    @GetMapping("/destination")
+    public String displayDestination(Model model){
+        model.addAttribute("Destination", destinationRepository.findAll());
+        return "itinerary/destination";
+    }
+
     @GetMapping("/create")
     public String displayCreateItineraryForm(Model model) {
         model.addAttribute("title", "Create Itineraries");
