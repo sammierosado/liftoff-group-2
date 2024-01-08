@@ -1,54 +1,49 @@
-
+import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import firebase, { auth, firestore } from "../firebase";
+import {UserAuth} from '../Context/AuthContext'
 
-const UserSignUp = ({ onSignUp }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+const UserSignUp = () => {
+     const [email, setEmail] = useState('');
+     const [password, setPassword] = useState('');
+     const [error, setError] = useState('');
+     const { createUser } = UserAuth();
+     const navigate = useNavigate()
 
-    const handleUserSignUp = async () => {
-
-    if(password !== confirmPassword) {
-        alert('Passwords must match');
-        return;
-    }
-    try {
-        const userCredential = await auth.createUserWithEmailAndPassword(
-    email,
-    password,
-    );
-    console.log("User registered:", userCredential.user);
-
-    if (onSignUp) {
-        onSignUp(userCredential.user);
+     const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        try{
+            await createUser(email, password)
+            navigate('/userPage')
+        } catch (e) {
+            setError(e.message)
+            console.log(e.message)
         }
-    } catch (error) {
-    console.error("Registration failed:", error.message);
-    }
-    };
+     };
 
-
-    return(
+return(
+ <div className='max-w-{700px} mx-auto my-16 p-4'>
     <div>
-        <h3> User Sign Up </h3>
-        <div>
-            <label>Email:</label>
-            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <h1 className='text-2xl font-bold py-2'>Create account</h1>
+          <p className='py-2'>
+           Already have an account? {''}
+           <Link to ='/Login' className='underline'>Sign in.</Link>
+           </p>
     </div>
-    <div>
-            <label>Password:</label>
-            <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-    </div>
-
-    <div>
-            <label>Confirm Password:</label>
-            <input type="text" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-    </div>
-        <button onClick={handleUserSignUp}>Sign Up</button>
-    </div>
-    );
-
+    <form onSubmit={handleSubmit}>
+        <div className='flex flex-col py-2'>
+            <label className='py-2 font-medium'>Email Address</label>
+            <input onChange={(e) => setEmail(e.target.value)} className='border p-3' type="email" />
+        </div>
+        <div className='flex flex-col py-2'>
+            <label className='py-2 font-medium'>Password</label>
+             <input onChange={(e) => setPassword(e.target.value)} className='border p-3' type="password" />
+        </div>
+        <button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>Sign Up
+        </button>
+    </form>
+ </div>
+);
 };
 
 export default UserSignUp;

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React from 'react';
 import NavigationBar from './NavigationBar';
 
 let logo = "Adventure Appraisals"
