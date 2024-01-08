@@ -4,7 +4,8 @@ import UserPage from'./components/UserPage';
 import UserSignUp from'./components/UserSignUp';
 import HomePage from'./components/HomePage';
 import { Route, Routes } from 'react-router-dom';
-import { AuthContextProvider} from './Context/AuthContext'
+import { AuthContextProvider} from './Context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoutes';
 
   function App() {
     return (
@@ -17,7 +18,11 @@ import { AuthContextProvider} from './Context/AuthContext'
           <Route path="/" element={<HomePage />} />
           <Route path="/userSignUp" element={<UserSignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/userPage" element={<UserPage />} />
+          <Route path="/userPage" element={
+          <ProtectedRoute>
+          <UserPage />
+          </ProtectedRoute> } />
+
     </Routes>
     </AuthContextProvider>
    </div>
