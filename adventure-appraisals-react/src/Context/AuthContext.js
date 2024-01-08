@@ -30,7 +30,6 @@ const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
     }
 },[])
 
-
 const logout = () => {
   return signOut(auth)
   }
