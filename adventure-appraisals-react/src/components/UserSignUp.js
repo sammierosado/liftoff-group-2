@@ -12,7 +12,7 @@ const UserSignUp = () => {
      const navigate = useNavigate()
 
 const actionCodeSettings = {
-url: 'adventure-appraisals.firebaseapp.com/UserPage',
+url: 'http://localhost:3000/userPage',
   handleCodeInApp: true,
 };
 
