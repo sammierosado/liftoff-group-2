@@ -13,13 +13,25 @@ const Login = () =>{
 
     const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('')
+    if (!email) {
+            setError('Must provide email and password.')
+            return;
+            } else {
+            setError('');
+            }
+
+            if (!password) {
+            setError('Must provide email and password.');
+            return;
+            } else {
+            setError('');
+            }
     try {
     await signIn(email, password)
     navigate('/userPage')
-    }catch (e) {
-    setError(e.message)
-    console.log(e.message)
+    }catch (error) {
+       setError('Invalid email or password. Please try again.');
+    console.error(error.message);
     }
    };
 
@@ -31,6 +43,11 @@ return(
            Need to create an account? <Link to='/UserSignUp' className='underline'>Sign up here.</Link>
            </p>
     </div>
+    {error && (
+                <div className='py-2 text-red-500'>
+                  <p>{error}</p>
+                </div>
+    )}
     <form onSubmit={handleSubmit}>
         <div className='flex flex-col py-2'>
             <label className='py-2 font-medium'>Email Address</label>
@@ -44,6 +61,7 @@ return(
     </form>
  </div>
 );
-}
+};
+
 
 export default Login;
