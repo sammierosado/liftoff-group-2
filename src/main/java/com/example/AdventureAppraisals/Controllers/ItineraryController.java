@@ -10,9 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +39,7 @@ public class ItineraryController {
 
     @GetMapping
     public String displayItineraries(Model model) {
-        model.addAttribute("title", "All Itineraries");
+        model.addAttribute("All Itineraries", "All Itineraries");
         model.addAttribute("Itineraries", itineraryRepository.findAll());
         model.addAttribute("ItineraryDetails", itineraryDetailsRepository.findAll());
         model.addAttribute("Destination", destinationRepository.findAll());
@@ -49,7 +54,7 @@ public class ItineraryController {
 
     @GetMapping("/create")
     public String displayCreateItineraryForm(Model model) {
-        model.addAttribute("title", "Create Itineraries");
+        model.addAttribute("Create Itineraries", "Create Itineraries");
         model.addAttribute(new Itinerary());
         model.addAttribute(new ItineraryDetails());
         model.addAttribute(new Destination());
@@ -60,7 +65,7 @@ public class ItineraryController {
     @PostMapping("/create")
     public String processCreateItineraryForm(@ModelAttribute Itinerary newItinerary, @ModelAttribute ItineraryDetails newItineraryDetails, @ModelAttribute Destination newDestination, Errors errors, Model model) {
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Create itineraries");
+            model.addAttribute("Create Itineraries", "Create itineraries");
             model.addAttribute("errorMsg", "BadData");
             return "itinerary/create";
         }
@@ -72,7 +77,7 @@ public class ItineraryController {
 
     @GetMapping("/delete")
     public String displayDeleteItineraryForm(Model model) {
-        model.addAttribute("title", "DeleteItineraries");
+        model.addAttribute("Delete Itineraries", "Delete Itineraries");
         model.addAttribute("Itineraries", itineraryRepository.findAll());
         model.addAttribute("ItineraryDetails", itineraryDetailsRepository.findAll());
         model.addAttribute("Destination", destinationRepository.findAll());
@@ -241,19 +246,19 @@ public class ItineraryController {
 
     @GetMapping("/search")
     public String searchFormDisplay(Model model) {
-        model.addAttribute("Tile", "Search");
+        model.addAttribute("Search", "Search");
         return "itinerary/searchForm";
     }
 
     @PostMapping("/search")
     public String searchFormDisplay3(Model model) {
-        model.addAttribute("Tile", "Search");
+        model.addAttribute("Search", "Search");
         return "itinerary/searchDisplay";
     }
 
     @GetMapping("/search/")
     public String searchFormDisplay1(Model model, @RequestParam String word) {
-        model.addAttribute("Tile", "Search");
+        model.addAttribute("Search", "Search");
         Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
         Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
         Iterable<Destination> destinationIterable = destinationRepository.findAll();
@@ -340,7 +345,7 @@ public class ItineraryController {
 
     @PostMapping("/search/")
     public String processSearchForm(Model model, @RequestParam String word) {
-        model.addAttribute("Title", "SearchResults");
+        model.addAttribute("Search Results", "Search Results");
         Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
         Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
         Iterable<Destination> destinationIterable = destinationRepository.findAll();
@@ -426,9 +431,7 @@ public class ItineraryController {
 
     @GetMapping("/upload/{id}")
     public String uploadImagePage(@PathVariable int id, Model model) {
-
-
-
+        model.addAttribute("Upload Image","Upload Image");
         Optional<Destination> destinationOptional = destinationRepository.findById(id);
         Destination destination = destinationOptional.get();
         model.addAttribute("Destination", destination);
@@ -436,15 +439,20 @@ public class ItineraryController {
     }
 
     @PutMapping("/upload/{id}")
-    public String processUploadImageForm(Model model, @RequestParam("file") File file, @PathVariable int id) throws IOException {
-        System.out.println("Inside PUIF"+ file.getPath());
+    public String processUploadImageForm(Model model, @RequestParam("file") MultipartFile file, @PathVariable int id) throws IOException {
         //var base64EncodedImage = Base64.getEncoder().encodeToString(file.toString().getBytes());
+        model.addAttribute("Upload Image","Upload Image");
         Optional<Destination> destinationOptional = destinationRepository.findById(id);
         Destination destination = destinationOptional.get();
-
-        destination.setImage("/image/" + file.getPath());
+        //ImageIcon myIcon = new ImageIcon(getClass().getClassLoader().getResource(file.getPath()));
+        //destination.setImage(myIcon);
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get(File.separator+"Users"+File.separator+"sugan"+File.separator +"IdeaProjects"+File.separator +"liftoff-group-2"+File.separator +"src"+File.separator +"main"+File.separator+"resources"+File.separator+"static"+File.separator+"image"+File.separator + file.getOriginalFilename());
+        Files.write(path,bytes);
+        destination.setImage(File.separator+"image"+File.separator + file.getOriginalFilename());
         model.addAttribute("Destination", destination);
         destinationRepository.save(destination);
+
         //model.addAttribute("base64EncodedImage",base64EncodedImage);
         return "redirect:/itineraries";
 
