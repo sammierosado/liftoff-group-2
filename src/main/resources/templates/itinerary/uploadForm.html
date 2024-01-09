@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/itineraries/upload/{id}(id=${Destination.id})}" method="post">
+<form th:action="@{/itineraries/upload/{id}(id=${Destination.id})}" method="post" enctype = "multipart/form-data">
     <input type="hidden" name="_method" value = "PUT" />
     <input type="file" name="file" />
     <button type="submit">Upload</button>
