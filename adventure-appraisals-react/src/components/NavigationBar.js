@@ -9,7 +9,7 @@ const NavigationBar = () => {
                     <Link to="/" className="text-white">Home</Link>
                 </li>
                 <li className="flex-grow flex-1">
-                   <Link to="/search" className="text-white">Search</Link>
+                   <Link to="http://localhost:8080/itineraries/search" className="text-white">Search</Link>
                 </li>
 
                 <li className="flex-grow flex-1">
@@ -19,7 +19,7 @@ const NavigationBar = () => {
                     <Link to="/userPage" className="text-white">User Page</Link>
                 </li>
                 <li className="flex-grow flex-1">
-                    <Link to="/destinations" className="text-white">Destinations</Link>
+                    <Link to="http://localhost:8080/itineraries/destination" className="text-white">Destinations</Link>
                 </li>
 
                 <li className="flex-grow flex-1">
