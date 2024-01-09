@@ -18,6 +18,7 @@ const UserPage = () => {
  };
 
    checkEmailVerification();
+   console.log (user);
  }, [user]);
 
 const handleLogout = async () => {
