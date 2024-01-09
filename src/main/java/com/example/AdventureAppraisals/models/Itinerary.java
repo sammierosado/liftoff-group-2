@@ -1,12 +1,8 @@
 package com.example.AdventureAppraisals.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import org.springframework.validation.annotation.Validated;
+import jakarta.persistence.*;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,6 +12,9 @@ public class Itinerary extends AbstractEntity {
     private Destination destination;
     @OneToOne(cascade = CascadeType.ALL)
     private ItineraryDetails itineraryDetails;
+
+    @OneToMany(mappedBy = "itinerary")
+    private final List<Review> reviews = new ArrayList<>();
 
     public Destination getDestination() {
         return destination;
@@ -33,7 +32,9 @@ public class Itinerary extends AbstractEntity {
         this.itineraryDetails = itineraryDetails;
     }
 
-    public Itinerary() {};
+    public Itinerary() {}
 
-
+    public List<Review> getReviews() {
+        return reviews;
+    }
 }

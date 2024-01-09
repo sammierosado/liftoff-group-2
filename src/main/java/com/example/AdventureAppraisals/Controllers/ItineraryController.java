@@ -450,5 +450,11 @@ public class ItineraryController {
 
     }
 
-}
+    @CrossOrigin
+    @GetMapping("/itinerary/{id}")
+    @ResponseBody
+    public Optional<Itinerary> getItineraryById(@PathVariable int id) {
+        return itineraryRepository.findById(id);
+    }
 
+}

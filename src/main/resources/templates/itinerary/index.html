@@ -89,7 +89,12 @@
             <td><a th:href = "@{/itineraries/upload/{id}(id=${destination.id})}">Upload</a></td><td></td>
         </th:block>
     </tr>
-
+    <tr>
+        <th></th>
+        <th:block th:each = "itinerary : ${Itineraries}">
+            <td><a th:href = "@{http://localhost:3000/review/{id}(id=${itinerary.id})}">See Reviews</a></td><td></td>
+        </th:block>
+    </tr>
 
 
 
