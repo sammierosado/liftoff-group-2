@@ -1,36 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage';
+import React from 'react';
+import Login from'./components/Login';
+import UserPage from'./components/UserPage';
+import UserSignUp from'./components/UserSignUp';
+import HomePage from'./components/HomePage';
+import { Route, Routes } from 'react-router-dom';
+import { AuthContextProvider} from './Context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoutes';
 import NavigationBar from './components/NavigationBar';
 
+  function App() {
+    return (
+  <div>
+  <h1 className='text-center text-3xl text-blue-900 font-bold mt-4'>
+      Adventure Appraisals
+      </h1>
+    <NavigationBar/>
 
-function App() {
-  return (
-  <Router>
-    <div className="App">
-        <NavigationBar />
+    <AuthContextProvider>
     <Routes>
-          <Route path="/" element={<HomePage />} index />
-    </Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/userSignUp" element={<UserSignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/userPage" element={
+          <ProtectedRoute>
+          <UserPage />
+          </ProtectedRoute> } />
 
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-     </div>
-    </Router>
-  )
-};
+    </Routes>
+    </AuthContextProvider>
+   </div>
+
+   );
+   }
 
 export default App;
+
+
