@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Itinerary extends AbstractEntity {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Destination destination;
     @OneToOne(cascade = CascadeType.ALL)
     private ItineraryDetails itineraryDetails;

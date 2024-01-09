@@ -11,6 +11,7 @@ const NavigationBar = () => {
                 <li className="flex-grow flex-1">
                    <Link to="/search" className="text-white">Search</Link>
                 </li>
+
                 <li className="flex-grow flex-1">
                   <a href="http://localhost:8080/itineraries" className="text-white">Itineraries</a>
                 </li>

@@ -1,8 +1,6 @@
 package com.example.AdventureAppraisals.Controllers;
 
-import com.example.AdventureAppraisals.Data.DestinationRepository;
-import com.example.AdventureAppraisals.Data.ItineraryDetailsRepository;
-import com.example.AdventureAppraisals.Data.ItineraryRepository;
+import com.example.AdventureAppraisals.Data.*;
 import com.example.AdventureAppraisals.models.Destination;
 import com.example.AdventureAppraisals.models.Itinerary;
 import com.example.AdventureAppraisals.models.ItineraryDetails;
@@ -13,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,7 @@ public class ItineraryController {
     private DestinationRepository destinationRepository;
 
 
+
     @GetMapping
     public String displayItineraries(Model model) {
         model.addAttribute("title", "All Itineraries");
@@ -38,6 +39,12 @@ public class ItineraryController {
         model.addAttribute("ItineraryDetails", itineraryDetailsRepository.findAll());
         model.addAttribute("Destination", destinationRepository.findAll());
         return "itinerary/index";
+    }
+
+    @GetMapping("/destination")
+    public String displayDestination(Model model){
+        model.addAttribute("Destination", destinationRepository.findAll());
+        return "itinerary/destination";
     }
 
     @GetMapping("/create")
@@ -139,7 +146,6 @@ public class ItineraryController {
     }
 
 
-
     @Transactional
     @GetMapping("/updateDetails/{id}")
     public String updateItineraryFormData5(
@@ -224,7 +230,7 @@ public class ItineraryController {
     @PutMapping("/updateDestination/{id}")
     public String updateItineraryFormData12(Model model, @PathVariable int id, @RequestParam String name) {
         model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<Destination>  destinationOptional = destinationRepository.findById(id);
+        Optional<Destination> destinationOptional = destinationRepository.findById(id);
         Destination destination = destinationOptional.get();
         destination.setName(name);
         destinationRepository.save(destination);
@@ -234,36 +240,36 @@ public class ItineraryController {
 
 
     @GetMapping("/search")
-    public String searchFormDisplay(Model model){
-        model.addAttribute("Tile","Search");
+    public String searchFormDisplay(Model model) {
+        model.addAttribute("Tile", "Search");
         return "itinerary/searchForm";
     }
 
     @PostMapping("/search")
-    public String searchFormDisplay3(Model model){
-        model.addAttribute("Tile","Search");
+    public String searchFormDisplay3(Model model) {
+        model.addAttribute("Tile", "Search");
         return "itinerary/searchDisplay";
     }
 
     @GetMapping("/search/")
-    public String searchFormDisplay1(Model model,@RequestParam String word){
-        model.addAttribute("Tile","Search");
+    public String searchFormDisplay1(Model model, @RequestParam String word) {
+        model.addAttribute("Tile", "Search");
         Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
         Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
         Iterable<Destination> destinationIterable = destinationRepository.findAll();
         List<Itinerary> matchingItinerary = new ArrayList<>();
         List<Destination> matchingDestination = new ArrayList<>();
-        for(Itinerary itinerary: itineraryIterable) {
+        for (Itinerary itinerary : itineraryIterable) {
             if (itinerary.getName().toLowerCase().contains(word.toLowerCase())) {
                 if (!matchingItinerary.contains(itinerary)) {
-                matchingItinerary.add(itinerary);
+                    matchingItinerary.add(itinerary);
+                    break;
+                }
                 break;
-            }
-            break;
             }
 
         }
-        if(matchingItinerary.isEmpty()) {
+        if (matchingItinerary.isEmpty()) {
             for (Itinerary itinerary : itineraryIterable) {
 
                 for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
@@ -281,36 +287,36 @@ public class ItineraryController {
                 continue;
             }
         }
-        model.addAttribute("itinerary",matchingItinerary);
+        model.addAttribute("itinerary", matchingItinerary);
 
 
         List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
         for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-            if(itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())){
+            if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
-            if(itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())){
+            if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
-            if(itineraryDetails.getTravelStartDateTime().equals(word)){
+            if (itineraryDetails.getTravelStartDateTime().equals(word)) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
-            if(itineraryDetails.getTravelEndDateTime().equals(word.toLowerCase())){
+            if (itineraryDetails.getTravelEndDateTime().equals(word.toLowerCase())) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
         }
-        model.addAttribute("itineraryDetails",matchingItineraryDetails);
-        for(Destination destination: destinationIterable) {
+        model.addAttribute("itineraryDetails", matchingItineraryDetails);
+        for (Destination destination : destinationIterable) {
             if (destination.getName().toLowerCase().contains(word.toLowerCase())) {
                 if (!matchingDestination.contains(destination)) {
-                matchingDestination.add(destination);
+                    matchingDestination.add(destination);
+                    break;
+                }
                 break;
-            }
-            break;
             }
 
         }
-        if(matchingDestination.isEmpty()) {
+        if (matchingDestination.isEmpty()) {
             for (Destination destination : destinationIterable) {
                 for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
                     if (!(destination.getName().toLowerCase().contains(word.toLowerCase()))) {
@@ -327,13 +333,13 @@ public class ItineraryController {
                 continue;
             }
         }
-        model.addAttribute("destination",matchingDestination);
+        model.addAttribute("destination", matchingDestination);
 
         return "itinerary/searchDisplay";
     }
 
     @PostMapping("/search/")
-    public String processSearchForm(Model model,@RequestParam String word) {
+    public String processSearchForm(Model model, @RequestParam String word) {
         model.addAttribute("Title", "SearchResults");
         Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
         Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
@@ -341,17 +347,17 @@ public class ItineraryController {
         List<Itinerary> matchingItinerary = new ArrayList<>();
         List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
         List<Destination> matchingDestination = new ArrayList<>();
-        for(Itinerary itinerary: itineraryIterable) {
+        for (Itinerary itinerary : itineraryIterable) {
             if (itinerary.getName().toLowerCase().contains(word.toLowerCase())) {
                 if (!matchingItinerary.contains(itinerary)) {
-                matchingItinerary.add(itinerary);
+                    matchingItinerary.add(itinerary);
+                    break;
+                }
                 break;
-            }
-            break;
             }
 
         }
-        if(matchingItinerary.isEmpty()) {
+        if (matchingItinerary.isEmpty()) {
             for (Itinerary itinerary : itineraryIterable) {
                 for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
                     if (!(itinerary.getName().toLowerCase().contains(word.toLowerCase()))) {
@@ -368,34 +374,34 @@ public class ItineraryController {
                 continue;
             }
         }
-        model.addAttribute("itinerary",matchingItinerary);
+        model.addAttribute("itinerary", matchingItinerary);
 
         for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-            if(itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())){
+            if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
-            if(itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())){
+            if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
-            if(itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())){
+            if (itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
-            if(itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())){
+            if (itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
                 matchingItineraryDetails.add(itineraryDetails);
             }
         }
-        model.addAttribute("itineraryDetails",matchingItineraryDetails);
-        for(Destination destination: destinationIterable) {
+        model.addAttribute("itineraryDetails", matchingItineraryDetails);
+        for (Destination destination : destinationIterable) {
             if (destination.getName().toLowerCase().contains(word.toLowerCase())) {
                 if (!matchingDestination.contains(destination)) {
-                matchingDestination.add(destination);
-                break;
+                    matchingDestination.add(destination);
+                    break;
                 }
                 break;
             }
 
         }
-        if(matchingDestination.isEmpty()) {
+        if (matchingDestination.isEmpty()) {
             for (Destination destination : destinationIterable) {
 
                 for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
@@ -414,10 +420,35 @@ public class ItineraryController {
                 continue;
             }
         }
-        model.addAttribute("destination",matchingDestination);
+        model.addAttribute("destination", matchingDestination);
         return "itinerary/searchDisplay";
     }
 
+    @GetMapping("/upload/{id}")
+    public String uploadImagePage(@PathVariable int id, Model model) {
+
+
+
+        Optional<Destination> destinationOptional = destinationRepository.findById(id);
+        Destination destination = destinationOptional.get();
+        model.addAttribute("Destination", destination);
+        return "itinerary/uploadForm";
+    }
+
+    @PutMapping("/upload/{id}")
+    public String processUploadImageForm(Model model, @RequestParam("file") File file, @PathVariable int id) throws IOException {
+        System.out.println("Inside PUIF"+ file.getPath());
+        //var base64EncodedImage = Base64.getEncoder().encodeToString(file.toString().getBytes());
+        Optional<Destination> destinationOptional = destinationRepository.findById(id);
+        Destination destination = destinationOptional.get();
+
+        destination.setImage("/image/" + file.getPath());
+        model.addAttribute("Destination", destination);
+        destinationRepository.save(destination);
+        //model.addAttribute("base64EncodedImage",base64EncodedImage);
+        return "redirect:/itineraries";
+
+    }
 
 }
 
