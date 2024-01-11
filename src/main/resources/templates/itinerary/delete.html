@@ -5,17 +5,26 @@
     <title>Title</title>
 </head>
 <body>
-<form method = "post" th:action="@{/itineraries/delete}"  >
-    <h1> DELETE ITINERARIES </h1>
-    <table>
+<form method = "post" th:action="@{/itineraries/delete/{id}(id = ${itineraryDetails.id})}"  >
+
+
+    <h3> Confirm Deleting "
+    <th:block th:each="itineraryDetails : ${itineraryDetails}">
+        <label th:text="${itineraryDetails.name.split(',')[0]}">
+        </label>
+    </th:block>
+       "</h3>
+
+    <button type = "Submit" > Delete </button>
+  <!--  <table>
 
 
         <tr>
             <th>ITINERARY NAME</th>
-            <th:block th:each="itinerary : ${Itineraries}">
+            <th:block th:each="itineraryDetails : ${ItineraryDetails}">
                 <label>
-                    <td><th:block th:text="${itinerary.name}"></th:block>
-                        <input type="checkbox" name="itineraryIds" th:value="${itinerary.id}" /></td>
+                    <td><th:block th:text="${itineraryDetails.name.split(',')[0]}"></th:block>
+                        <input type="checkbox" name="itineraryDetailsIds" th:value="${itineraryDetails.id}" /></td>
                 </label>
 
             </th:block></tr>
@@ -25,7 +34,7 @@
 
                 <label>
                     <td><th:block th:text="${itineraryDetails.fromCity}"></th:block>
-                        <input type="checkbox" name="itineraryDetailsIds" th:value="${itineraryDetails.id}" /></td>
+                       <input type="checkbox" name="itineraryDetailsFromCity" th:value="${itineraryDetails.fromCity}" /></td>
                 </label>
 
             </th:block></tr>
@@ -35,7 +44,7 @@
 
                 <label>
                     <td><th:block th:text="${itineraryDetails.toCity}"></th:block>
-                        <input type="checkbox" name="itineraryDetailsToCity" th:value="${itineraryDetails.toCity}" /></td>
+                      <input type="checkbox" name="itineraryDetailsToCity" th:value="${itineraryDetails.toCity}" /></td>
                 </label>
 
             </th:block></tr>
@@ -44,7 +53,7 @@
 
                 <label>
                     <td><th:block th:text="${itineraryDetails.travelStartDateTime}"></th:block>
-                        <input type="checkbox" name="itineraryDetailsTravelStart" th:value="${itineraryDetails.travelStartDateTime}" /></td>
+                      <input type="checkbox" name="itineraryDetailsTravelStart" th:value="${itineraryDetails.travelStartDateTime}" /></td>
                 </label>
 
             </th:block></tr>
@@ -54,27 +63,27 @@
 
                 <label>
                     <td><th:block th:text="${itineraryDetails.travelEndDateTime}"></th:block>
-                        <input type="checkbox" name="itineraryDetailsTravelEnd" th:value="${itineraryDetails.travelEndDateTime}" /></td>
+                      <input type="checkbox" name="itineraryDetailsTravelEnd" th:value="${itineraryDetails.travelEndDateTime}" /></td>
                 </label>
 
             </th:block>
         </tr>
 
         <tr><th>DESTINATION SPOT</th>
-            <th:block th:each="destination : ${Destination}">
+            <th:block th:each="itineraryDetails : ${ItineraryDetails}">
 
                 <label>
-                    <td><th:block th:text="${destination.name}"></th:block>
-                    <input type="checkbox" name="destinationIds" th:value="${destination.id}" /></td>
+                    <td><th:block th:text="${itineraryDetails.name.split(',')[1]}"></th:block>
+                    <input type="checkbox" name="itineraryDetailsIds" th:value="${itineraryDetails.id}" /></td>
                 </label>
 
             </th:block></tr>
 
         <tr>
         <th><button type = "Submit"> Delete </button></th>
-        <tr>
         </tr>
-    </table>
+
+    </table> -->
 </form>
 <h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
 </body>

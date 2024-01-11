@@ -11,8 +11,8 @@
 
     <tr>
         <th>ITINERARY NAME</th>
-        <th:block th:each = "itinerary : ${itinerary}" >
-            <td th:text = "${itinerary.name}"></td>
+        <th:block th:each = "itineraryDetails : ${itineraryDetails}" >
+            <td th:text = "${itineraryDetails.name.split(',')[0]}"></td>
         </th:block></tr>
     <tr>
         <th>FROM CITY</th>
@@ -35,8 +35,8 @@
     </th:block> </tr>
     <tr>
         <th>DESTINATION SPOT</th>
-        <th:block th:each = "destination : ${destination}">
-            <td th:text = "${destination.name}"></td>
+        <th:block th:each = "itineraryDetails : ${itineraryDetails}">
+            <td th:text = "${itineraryDetails.name.split(',')[1]}"></td>
         </th:block></tr>
 
 </table>

@@ -7,8 +7,17 @@
 <body>
 <form th:action="@{/itineraries/upload/{id}(id=${Destination.id})}" method="post" enctype = "multipart/form-data">
     <input type="hidden" name="_method" value = "PUT" />
+
+
+    <h1> Select an image file to upload</h1>
     <input type="file" name="file" />
+
     <button type="submit">Upload</button>
+    <br />
+    <br />
+    <br />
+    <br />
+    <h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
 </form>
 </body>
 </html>

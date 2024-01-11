@@ -12,7 +12,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,7 +39,7 @@ public class ItineraryController {
     @GetMapping
     public String displayItineraries(Model model) {
         model.addAttribute("All Itineraries", "All Itineraries");
-        model.addAttribute("Itineraries", itineraryRepository.findAll());
+        model.addAttribute("ItinerariesDetails", itineraryRepository.findAll());
         model.addAttribute("ItineraryDetails", itineraryDetailsRepository.findAll());
         model.addAttribute("Destination", destinationRepository.findAll());
         return "itinerary/index";
@@ -75,80 +74,41 @@ public class ItineraryController {
         return "redirect:/itineraries";
     }
 
-    @GetMapping("/delete")
-    public String displayDeleteItineraryForm(Model model) {
+
+    @GetMapping("/delete/{id}")
+    public String displayDeleteItineraryForm1(Model model,@PathVariable int id) {
         model.addAttribute("Delete Itineraries", "Delete Itineraries");
-        model.addAttribute("Itineraries", itineraryRepository.findAll());
-        model.addAttribute("ItineraryDetails", itineraryDetailsRepository.findAll());
-        model.addAttribute("Destination", destinationRepository.findAll());
+        Optional<ItineraryDetails> itineraryDetailsOptional = itineraryDetailsRepository.findById(id);
+        ItineraryDetails itineraryDetails = itineraryDetailsOptional.get();
+        model.addAttribute("itineraryDetails", itineraryDetails);
 
         return "itinerary/delete";
     }
 
-    @PostMapping("/delete")
-    public String processDeleteItinerariesForm(@RequestParam(required = false) int[] itineraryIds, @RequestParam(required = false) int[] itineraryDetailsIds, @RequestParam(required = false) int[] destinationIds, Model model) {
-        if (itineraryIds != null) {
-            for (int id : itineraryIds) {
-                itineraryRepository.deleteById(id);
+
+    @PostMapping("/delete/{id}")
+    public String processDeleteItinerariesForm(@PathVariable int id){ //@RequestParam(required = false) int[] destinationIds, Model model) {
+
+        Optional<ItineraryDetails> itineraryDetailsOptional = itineraryDetailsRepository.findById(id);
+        ItineraryDetails itineraryDetails = itineraryDetailsOptional.get();
+        String priorName = itineraryDetails.getName();
+        Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
+        for(Itinerary itinerary : itineraryIterable){
+            if((itinerary.getName().toLowerCase().contains(priorName.toLowerCase()))){
+                itineraryRepository.delete(itinerary);
             }
         }
-        if (itineraryDetailsIds != null) {
-            for (int id : itineraryDetailsIds) {
-                itineraryDetailsRepository.deleteById(id);
+
+        Iterable<Destination> destinationIterable = destinationRepository.findAll();
+        for(Destination destination : destinationIterable){
+            if((destination.getName().toLowerCase().contains(priorName.toLowerCase()))){
+                destinationRepository.delete(destination);
             }
         }
-        if (destinationIds != null) {
-            for (int id : destinationIds) {
-                destinationRepository.deleteById(id);
-            }
-        }
+        itineraryDetailsRepository.deleteById(id);
         return "redirect:/itineraries";
     }
 
-
-    @Transactional
-    @GetMapping("/update/{id}")
-    public String updateItineraryFormData1(
-            Model model, @PathVariable("id") int id) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<Itinerary> itineraryOptional = itineraryRepository.findById(id);
-        Itinerary itinerary = itineraryOptional.get();
-        model.addAttribute("itinerary", itinerary);
-        return "itinerary/update";
-    }
-
-    @GetMapping("/update")
-    public String updateItineraryFormDataDisplay2(
-            Model model, @RequestParam int id) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<Itinerary> itineraryOptional = itineraryRepository.findById(id);
-        Itinerary itinerary = itineraryOptional.get();
-        model.addAttribute("itinerary", itinerary);
-        return "itinerary/update";
-    }
-
-
-    @Transactional
-    @PutMapping("/update")
-    public String updateItineraryFormDataDisplay3(
-            Model model, @ModelAttribute Itinerary itinerary) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        itineraryRepository.save(itinerary);
-
-        return "redirect:/itineraries";
-    }
-
-    @Transactional
-    @PutMapping("/update/{id}")
-    public String updateItineraryFormData4(Model model, @PathVariable int id, @RequestParam String name) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<Itinerary> itineraryOptional = itineraryRepository.findById(id);
-        Itinerary itinerary = itineraryOptional.get();
-        itinerary.setName(name);
-        itineraryRepository.save(itinerary);
-        /*itineraryRepository.save(itinerary1);*/
-        return "redirect:/itineraries";
-    }
 
 
     @Transactional
@@ -162,84 +122,36 @@ public class ItineraryController {
         return "itinerary/updateDetails";
     }
 
-    @GetMapping("/updateDetails")
-    public String updateItineraryFormDataDisplay6(
-            Model model, @RequestParam int id) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<ItineraryDetails> itineraryDetailsOptional = itineraryDetailsRepository.findById(id);
-        ItineraryDetails itineraryDetails = itineraryDetailsOptional.get();
-        model.addAttribute("itineraryDetails", itineraryDetails);
-        return "itinerary/updateDetails";
-    }
-
-
-    @Transactional
-    @PatchMapping("/updateDetails")
-    public String updateItineraryFormDataDisplay7(
-            Model model, @ModelAttribute ItineraryDetails itineraryDetails) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        itineraryDetailsRepository.save(itineraryDetails);
-
-        return "redirect:/itineraries";
-    }
 
     @Transactional
     @PatchMapping("/updateDetails/{id}")
-    public String updateItineraryFormData8(Model model, @PathVariable int id, @RequestParam String fromCity, @RequestParam String toCity, @RequestParam LocalDateTime travelStartDateTime, @RequestParam LocalDateTime travelEndDateTime) {
+    public String updateItineraryFormData8(Model model, @PathVariable int id, @RequestParam String name, @RequestParam String fromCity, @RequestParam String toCity, @RequestParam LocalDateTime travelStartDateTime, @RequestParam LocalDateTime travelEndDateTime) {
         model.addAttribute("Update itineraries", "Update Itineraries");
         Optional<ItineraryDetails> itineraryDetailsOptional = itineraryDetailsRepository.findById(id);
         ItineraryDetails itineraryDetails = itineraryDetailsOptional.get();
+        String priorName = itineraryDetails.getName();
+        itineraryDetails.setName(name);
         itineraryDetails.setFromCity(fromCity);
         itineraryDetails.setToCity(toCity);
         itineraryDetails.setTravelEndDateTime(travelStartDateTime);
         itineraryDetails.setTravelEndDateTime(travelEndDateTime);
         itineraryDetailsRepository.save(itineraryDetails);
-        /*itineraryRepository.save(itinerary1);*/
-        return "redirect:/itineraries";
-    }
 
+        Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
+        for(Itinerary itinerary : itineraryIterable){
+            if((itinerary.getName().contains(priorName))){
+                itinerary.setName(name);
+                itineraryRepository.save(itinerary);
+            }
+        }
+        Iterable<Destination> destinationIterable = destinationRepository.findAll();
+        for(Destination destination : destinationIterable){
+            if((destination.getName().contains(priorName))){
+                destination.setName(name);
+                destinationRepository.save(destination);
+            }
+        }
 
-    @Transactional
-    @GetMapping("/updateDestination/{id}")
-    public String updateItineraryFormData9(
-            Model model, @PathVariable("id") int id) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<Destination> destinationOptional = destinationRepository.findById(id);
-        Destination destination = destinationOptional.get();
-        model.addAttribute("destination", destination);
-        return "itinerary/updateDestination";
-    }
-
-    @GetMapping("/updateDestination")
-    public String updateItineraryFormDataDisplay10(
-            Model model, @RequestParam int id) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<Destination> destinationOptional = destinationRepository.findById(id);
-        Destination destination = destinationOptional.get();
-        model.addAttribute("destination", destination);
-        return "itinerary/updateDestination";
-    }
-
-
-    @Transactional
-    @PatchMapping("/updateDestination")
-    public String updateItineraryFormDataDisplay11(
-            Model model, @ModelAttribute Destination destination) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        destinationRepository.save(destination);
-
-        return "redirect:/itineraries";
-    }
-
-    @Transactional
-    @PutMapping("/updateDestination/{id}")
-    public String updateItineraryFormData12(Model model, @PathVariable int id, @RequestParam String name) {
-        model.addAttribute("Update itineraries", "Update Itineraries");
-        Optional<Destination> destinationOptional = destinationRepository.findById(id);
-        Destination destination = destinationOptional.get();
-        destination.setName(name);
-        destinationRepository.save(destination);
-        /*itineraryRepository.save(itinerary1);*/
         return "redirect:/itineraries";
     }
 
@@ -250,183 +162,50 @@ public class ItineraryController {
         return "itinerary/searchForm";
     }
 
-    @PostMapping("/search")
-    public String searchFormDisplay3(Model model) {
-        model.addAttribute("Search", "Search");
-        return "itinerary/searchDisplay";
-    }
-
-    @GetMapping("/search/")
-    public String searchFormDisplay1(Model model, @RequestParam String word) {
-        model.addAttribute("Search", "Search");
-        Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
-        Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
-        Iterable<Destination> destinationIterable = destinationRepository.findAll();
-        List<Itinerary> matchingItinerary = new ArrayList<>();
-        List<Destination> matchingDestination = new ArrayList<>();
-        for (Itinerary itinerary : itineraryIterable) {
-            if (itinerary.getName().toLowerCase().contains(word.toLowerCase())) {
-                if (!matchingItinerary.contains(itinerary)) {
-                    matchingItinerary.add(itinerary);
-                    break;
-                }
-                break;
-            }
-
-        }
-        if (matchingItinerary.isEmpty()) {
-            for (Itinerary itinerary : itineraryIterable) {
-
-                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-                    if (!(itinerary.getName().toLowerCase().contains(word.toLowerCase()))) {
-                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
-                            if (!matchingItinerary.contains(itinerary)) {
-                                matchingItinerary.add(itinerary);
-                                break;
-                            }
-                            break;
-                        }
-                    }
-
-                }
-                continue;
-            }
-        }
-        model.addAttribute("itinerary", matchingItinerary);
-
-
-        List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
-        for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-            if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-            if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-            if (itineraryDetails.getTravelStartDateTime().equals(word)) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-            if (itineraryDetails.getTravelEndDateTime().equals(word.toLowerCase())) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-        }
-        model.addAttribute("itineraryDetails", matchingItineraryDetails);
-        for (Destination destination : destinationIterable) {
-            if (destination.getName().toLowerCase().contains(word.toLowerCase())) {
-                if (!matchingDestination.contains(destination)) {
-                    matchingDestination.add(destination);
-                    break;
-                }
-                break;
-            }
-
-        }
-        if (matchingDestination.isEmpty()) {
-            for (Destination destination : destinationIterable) {
-                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-                    if (!(destination.getName().toLowerCase().contains(word.toLowerCase()))) {
-                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
-                            if (!matchingDestination.contains(destination)) {
-                                matchingDestination.add(destination);
-                                break;
-                            }
-                            break;
-                        }
-                    }
-
-                }
-                continue;
-            }
-        }
-        model.addAttribute("destination", matchingDestination);
-
-        return "itinerary/searchDisplay";
-    }
 
     @PostMapping("/search/")
     public String processSearchForm(Model model, @RequestParam String word) {
         model.addAttribute("Search Results", "Search Results");
-        Iterable<Itinerary> itineraryIterable = itineraryRepository.findAll();
         Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
-        Iterable<Destination> destinationIterable = destinationRepository.findAll();
-        List<Itinerary> matchingItinerary = new ArrayList<>();
         List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
-        List<Destination> matchingDestination = new ArrayList<>();
-        for (Itinerary itinerary : itineraryIterable) {
-            if (itinerary.getName().toLowerCase().contains(word.toLowerCase())) {
-                if (!matchingItinerary.contains(itinerary)) {
-                    matchingItinerary.add(itinerary);
-                    break;
-                }
-                break;
-            }
-
-        }
-        if (matchingItinerary.isEmpty()) {
-            for (Itinerary itinerary : itineraryIterable) {
-                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-                    if (!(itinerary.getName().toLowerCase().contains(word.toLowerCase()))) {
-                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
-                            if (!matchingItinerary.contains(itinerary)) {
-                                matchingItinerary.add(itinerary);
-                                break;
-                            }
-                            break;
-                        }
-                    }
-
-                }
-                continue;
-            }
-        }
-        model.addAttribute("itinerary", matchingItinerary);
-
         for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-            if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-            if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-            if (itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-            if (itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
-                matchingItineraryDetails.add(itineraryDetails);
-            }
-        }
-        model.addAttribute("itineraryDetails", matchingItineraryDetails);
-        for (Destination destination : destinationIterable) {
-            if (destination.getName().toLowerCase().contains(word.toLowerCase())) {
-                if (!matchingDestination.contains(destination)) {
-                    matchingDestination.add(destination);
-                    break;
-                }
-                break;
-            }
 
-        }
-        if (matchingDestination.isEmpty()) {
-            for (Destination destination : destinationIterable) {
-
-                for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
-                    if (!(destination.getName().toLowerCase().contains(word.toLowerCase()))) {
-                        if ((itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) || (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase()))) {
-                            if (!matchingDestination.contains(destination)) {
-                                matchingDestination.add(destination);
-                                break;
-                            }
-                            break;
-                        }
-
+                if (itineraryDetails.getName().toLowerCase().contains(word.toLowerCase())) {
+                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                        matchingItineraryDetails.add(itineraryDetails);
                     }
-
                 }
-                continue;
+                if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
+                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                        matchingItineraryDetails.add(itineraryDetails);
+                    }
+                }
+                if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
+                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                        matchingItineraryDetails.add(itineraryDetails);
+                    }
+                }
+                if (itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
+                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                        matchingItineraryDetails.add(itineraryDetails);
+                    }
+                }
+                if (itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
+                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                        matchingItineraryDetails.add(itineraryDetails);
+                    }
+                }
             }
+
+
+        if(matchingItineraryDetails.isEmpty()){
+            return "itinerary/NoSearchResults";
         }
-        model.addAttribute("destination", matchingDestination);
-        return "itinerary/searchDisplay";
+        else{
+            model.addAttribute("itineraryDetails", matchingItineraryDetails);
+            return "itinerary/searchDisplay";
+        }
+
     }
 
     @GetMapping("/upload/{id}")
@@ -440,20 +219,15 @@ public class ItineraryController {
 
     @PutMapping("/upload/{id}")
     public String processUploadImageForm(Model model, @RequestParam("file") MultipartFile file, @PathVariable int id) throws IOException {
-        //var base64EncodedImage = Base64.getEncoder().encodeToString(file.toString().getBytes());
         model.addAttribute("Upload Image","Upload Image");
         Optional<Destination> destinationOptional = destinationRepository.findById(id);
         Destination destination = destinationOptional.get();
-        //ImageIcon myIcon = new ImageIcon(getClass().getClassLoader().getResource(file.getPath()));
-        //destination.setImage(myIcon);
         byte[] bytes = file.getBytes();
         Path path = Paths.get(File.separator+"Users"+File.separator+"sugan"+File.separator +"IdeaProjects"+File.separator +"liftoff-group-2"+File.separator +"src"+File.separator +"main"+File.separator+"resources"+File.separator+"static"+File.separator+"image"+File.separator + file.getOriginalFilename());
         Files.write(path,bytes);
         destination.setImage(File.separator+"image"+File.separator + file.getOriginalFilename());
         model.addAttribute("Destination", destination);
         destinationRepository.save(destination);
-
-        //model.addAttribute("base64EncodedImage",base64EncodedImage);
         return "redirect:/itineraries";
 
     }
