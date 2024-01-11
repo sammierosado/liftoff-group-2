@@ -1,4 +1,4 @@
-import { Button, Input, TextareaAutosize,  } from "@mui/base";
+import { Button } from "@mui/base";
 import { UserAuth } from "../Context/AuthContext";
 import { useEffect, useState } from "react";
 import { Box, Container, Paper, Rating, TextField } from "@mui/material";
@@ -24,13 +24,12 @@ const ReviewPage = () => {
 
     useEffect(() => {
         setReviews(itinerary.reviews);
-        console.log(reviews);
     }, [itinerary]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const reviewObject = {name, userEmail, review: newReview, itinerary, rating};
-        fetch("http://localhost:8080/reviews/create", {
+        fetch(`http://localhost:8080/reviews/create/${itineraryId}`, {
             method:"POST",
             headers:{'Content-Type':"application/json"},
             body:JSON.stringify(reviewObject)
@@ -43,7 +42,7 @@ const ReviewPage = () => {
         <Container>
             {(user) ? (
                 <Paper elevation={3} style={paperStyle}>
-                <h1 style={{color:"blue"}}>Add Review</h1>
+                <h1>Add Review</h1>
                     <Box
                         component="form"
                         sx={{
@@ -59,7 +58,9 @@ const ReviewPage = () => {
                     </Box>
                 </Paper>
             ) : (
-                <h1>Sign in to add a new review</h1>
+                <Paper elevation={3} style={paperStyle}>
+                    <h1>Sign in to add a new review</h1>
+                </Paper>
             )}
             <Paper elevation={3} style={paperStyle}>
                 <h1>Reviews</h1>
