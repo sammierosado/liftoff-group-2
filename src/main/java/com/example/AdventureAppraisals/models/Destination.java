@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class Destination extends AbstractEntity{
 
-    @Lob
+
     private String image;
     @OneToMany(mappedBy = "destination")
     private final List<Itinerary> itinerary = new ArrayList<>();

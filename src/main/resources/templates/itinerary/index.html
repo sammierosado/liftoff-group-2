@@ -13,9 +13,6 @@
             <h3><a href = "http://localhost:8080/itineraries/create" >CREATE ITINERARIES</a></h3>
         </td>
         <td></td>
-        <td>
-            <h3><a href = "http://localhost:8080/itineraries/delete" >DELETE ITINERARIES</a></h3>
-        </td>
         <td></td>
         <td>
             <h3><a href = "http://localhost:8080/itineraries/search" > SEARCH ITINERARIES</a></h3>
@@ -30,39 +27,40 @@
 
     <tr>
     <th>ITINERARY NAME</th>
-    <th:block th:each = "itinerary : ${Itineraries}" >
-    <td th:text = "${itinerary.name}"></td>
-    <td><a th:href="@{/itineraries/update/{id}(id=${itinerary.id})}">Update</a></td>
+    <th:block th:each = "itineraryDetails : ${ItineraryDetails}" >
+    <td th:text = "${itineraryDetails.name.split(',')[0]}"></td>
+    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
+
     </th:block></tr>
     <tr>
     <th>FROM CITY</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.fromCity}"></td>
-    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
+        <td><a th:href="@{/itineraries/delete/{id}(id=${itineraryDetails.id})}">Delete</a></td>
     </th:block></tr>
     <tr>
     <th>TO CITY</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.toCity}"></td>
-    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
+        <td></td>
     </th:block></tr>
     <tr>
     <th>TRAVEL START DATE</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.travelStartDateTime}"></td>
-    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
+    <td></td>
     </th:block></tr>
     <tr>
     <th>TRAVEL END DATE</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.travelEndDateTime}"></td>
-    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
+        <td></td>
     </th:block> </tr>
     <tr>
     <th>DESTINATION SPOT</th>
-    <th:block th:each = "destination : ${Destination}">
-    <td th:text = "${destination.name}"></td>
-    <td><a th:href="@{/itineraries/updateDestination/{id}(id=${destination.id})}">Update</a></td>
+    <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
+    <td th:text = "${itineraryDetails.name.split(',')[1]}"></td>
+        <td></td>
     </th:block></tr>
     <tr>
 
@@ -71,20 +69,11 @@
             <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td><td></td>
         </th:block>
 
-        <!--  <td><img th:src = "@{/image/Orlando1.jpeg}" />
-               "@{'data:image/jpeg;base64,' + T(com.example.AdventureAppraisals.models.ImageUtil).bytesToBase64(destination.image)}"
-                            </td><td></td>
-
-      <td><img th:src="@{/image/Seattle1.jpeg}" /></td><td></td>
-      <td><img th:src="@{/image/Pittsburg1.jpeg}" /></td><td></td> -->
-        <!--   th:src="@{'data:image/jpeg;base64,'+${base64EncodedImage}}" -->
 
     </tr>
     <tr>
         <th></th>
-        <!-- <td><img th:src="@{/Orlando1.jpeg}" /></td><td></td>
-         <td><img th:src="@{/Seattle1.jpeg}" /></td><td></td>
-         <td><img th:src="@{/Pittsburg1.jpeg}" /></td><td></td> -->
+
         <th:block th:each = "destination : ${Destination}">
             <td><a th:href = "@{/itineraries/upload/{id}(id=${destination.id})}">Upload</a></td><td></td>
         </th:block>
@@ -95,6 +84,6 @@
 
 
 </table>
-<a href="http://localhost:3000/"> Go to homepage</a>
+<h3><a href="http://localhost:3000/"> GO TO HOMEPAGE </a></h3>
 </body>
 </html>

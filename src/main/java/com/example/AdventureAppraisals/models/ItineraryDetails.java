@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ItineraryDetails extends AbstractEntity {
     @OneToOne(mappedBy = "itineraryDetails")
     private Itinerary itinerary;
+
     private String fromCity;
 
     private String toCity;
@@ -28,6 +29,8 @@ public class ItineraryDetails extends AbstractEntity {
     public void setItinerary(Itinerary itinerary) {
         this.itinerary = itinerary;
     }
+
+
 
     public Itinerary getItinerary() {
         return itinerary;
@@ -64,4 +67,7 @@ public class ItineraryDetails extends AbstractEntity {
     public void setTravelEndDateTime(LocalDateTime travelEndDateTime) {
         this.travelEndDateTime = travelEndDateTime;
     }
+
+
+
 }
