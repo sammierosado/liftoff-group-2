@@ -10,6 +10,7 @@ import NavigationBar from './components/NavigationBar';
 import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { useEffect } from "react";
 import firebaseApp from './firebase';
+import ReviewPage from './components/ReviewPage';
 
   function App() {
   useEffect(() => {
@@ -62,6 +63,7 @@ import firebaseApp from './firebase';
           <ProtectedRoute>
           <UserPage />
           </ProtectedRoute> } />
+          <Route path="/review/*" element={<ReviewPage />} />
 
     </Routes>
     </AuthContextProvider>
