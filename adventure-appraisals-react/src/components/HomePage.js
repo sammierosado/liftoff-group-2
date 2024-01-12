@@ -20,6 +20,7 @@ const HomePage = () => {
             your favorite itineraries and make your own!
             </p>
         </div>
+        //TODO add viewing favorited Itineraries
     );
 };
 
