@@ -11,6 +11,7 @@ const ReviewPage = () => {
     const [ name, setName ] = useState();
     const [ rating, setRating ] = useState();
     const [ itinerary, setItinerary ] = useState({});
+    const [ favorite, setFavorite ] = useState(false);
 
     const [ reviews, setReviews ] = useState();
 
@@ -42,7 +43,7 @@ const ReviewPage = () => {
         <Container>
             {(user) ? (
                 <Paper elevation={3} style={paperStyle}>
-                <h1>Add Review</h1>
+                    <h1>Add Review</h1>
                     <Box
                         component="form"
                         sx={{
