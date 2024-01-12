@@ -21,7 +21,9 @@ public class UserFavoritesController {
     @Autowired
     private ItineraryRepository itineraryRepository;
 
+    @CrossOrigin
     @GetMapping("/{name}")
+    @ResponseBody
     public List<Integer> getUsersFavoritesList(@PathVariable String name) {
 
         Iterable<UserFavorites> userFavoritesList = userFavoritesRepository.findAll();
@@ -36,6 +38,7 @@ public class UserFavoritesController {
     }
 
     @CrossOrigin
+    @ResponseBody
     @PostMapping("/add/{name}")
     public UserFavorites addToUsersFavoritesList(@RequestBody Itinerary itinerary, @PathVariable String name) {
 

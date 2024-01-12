@@ -17,11 +17,12 @@ const ReviewPage = () => {
 
     var url = window.location.pathname;
     const itineraryId = Number(url.substring(url.lastIndexOf('/') + 1));
-    const userEmail = user?.email;
+    const userEmail = user ? user.email : null;
 
     useEffect(() => {
+        userEmail && fetch(`http://localhost:8080/userfavorites/${userEmail}`).then(res => res.json()).then(result => setFavorite(result.includes(itineraryId)));
         fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`).then(res => res.json()).then(result => setItinerary(result));
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         setReviews(itinerary.reviews);
@@ -39,8 +40,22 @@ const ReviewPage = () => {
         setName('');
     };
 
+    const handleFavorite = (e) => {
+        e.preventDefault();
+        fetch(`http://localhost:8080/userfavorites/add/${userEmail}`, {
+            method:"POST",
+            headers:{'Content-Type':"application/json"},
+            body:JSON.stringify(itinerary)
+        });
+        setFavorite(true);
+    }
+
     return (
         <Container>
+            {(favorite && user) ? <Button>Unfavorite?</Button>
+            : (user) ? <Button onClick={handleFavorite}>Favorite?</Button>
+            : null
+            }
             {(user) ? (
                 <Paper elevation={3} style={paperStyle}>
                     <h1>Add Review</h1>
