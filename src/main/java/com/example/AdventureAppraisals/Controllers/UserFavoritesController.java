@@ -73,7 +73,7 @@ public class UserFavoritesController {
                 List<Integer> newUserFavoritedItineraryList = userFavorite.getFavoritedItineraryList();
 
                 if (newUserFavoritedItineraryList.contains(itinerary.getId())) {
-                    newUserFavoritedItineraryList.remove(itinerary.getId());
+                    newUserFavoritedItineraryList.remove((Integer) itinerary.getId());
                 } else {
                     return null;
                 }
