@@ -50,11 +50,19 @@ const ReviewPage = () => {
         setFavorite(true);
     }
 
-    //TODO handleUnfavorite
+    const handleUnfavorite = (e) => {
+        e.preventDefault();
+        fetch(`http://localhost:8080/userfavorites/remove/${userEmail}`, {
+            method:"POST",
+            headers:{'Content-Type':"application/json"},
+            body:JSON.stringify(itinerary)
+        });
+        setFavorite(false);
+    }
 
     return (
         <Container>
-            {(favorite && user) ? <Button>Unfavorite?</Button>
+            {(favorite && user) ? <Button onClick={handleUnfavorite}>Unfavorite?</Button>
             : (user) ? <Button onClick={handleFavorite}>Favorite?</Button>
             : null
             }

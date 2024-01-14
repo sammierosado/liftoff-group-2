@@ -59,4 +59,30 @@ public class UserFavoritesController {
 
         return userFavoritesRepository.save(newUserFavorites);
     }
+
+    @CrossOrigin
+    @ResponseBody
+    @PostMapping("/remove/{name}")
+    public UserFavorites removeFromUsersFavoritesList(@RequestBody Itinerary itinerary, @PathVariable String name) {
+
+        Iterable<UserFavorites> userFavoritesList = userFavoritesRepository.findAll();
+
+        for (UserFavorites userFavorite : userFavoritesList) {
+            if (userFavorite.getName().equals(name)) {
+
+                List<Integer> newUserFavoritedItineraryList = userFavorite.getFavoritedItineraryList();
+
+                if (newUserFavoritedItineraryList.contains(itinerary.getId())) {
+                    newUserFavoritedItineraryList.remove(itinerary.getId());
+                } else {
+                    return null;
+                }
+
+                userFavorite.setFavoritedItineraryList(newUserFavoritedItineraryList);
+                return userFavoritesRepository.save(userFavorite);
+            }
+        }
+
+        return null;
+    }
 }
