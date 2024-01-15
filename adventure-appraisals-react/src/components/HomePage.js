@@ -2,29 +2,49 @@ import React from 'react';
 import NavigationBar from './NavigationBar';
 import { UserAuth } from "../Context/AuthContext";
 import { Paper } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 let logo = "Adventure Appraisals"
 
 const HomePage = () => {
     const { user } = UserAuth();
     const paperStyle = {padding:'50px 20px', width:600, margin:'20px auto', textAlign:"center"};
-    const userEmail = user ? user.email : null;
-    let itineraryList = [];
+    let itineraryList;
 
+    const [ loaded, setLoaded ] = React.useState();
+    const [ userEmail, setUserEmail ] = React.useState();
     const [ userFavoritesList, setUserFavoritesList ] = React.useState();
-    const [ userFavoritesListOfItineraries, setUserFavoritesListOfItineraries ] = React.useState([]);
+    const [ userFavoritesListOfItineraries, setUserFavoritesListOfItineraries ] = React.useState();
 
     React.useEffect(() => {
-        userEmail && fetch(`http://localhost:8080/userfavorites/${userEmail}`).then(res => res.json()).then(result => setUserFavoritesList(result));
-//        itineraryList=[];
-//        userFavoritesList && for (const itineraryId of userFavoritesList) {
-//          fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`).then(res => res.json()).then(result => itineraryList.push(result));
-//        }
-//        setUserFavoritesListOfItineraries(itineraryList);
-        //TODO For loop through itinerary IDs in userFavoritesList and get the Itinerary and push the itinerary to userFavoritesListOfItineraries
-        //TODO Test above TODO
-        console.log(userFavoritesListOfItineraries);
-    })
+        setUserEmail(user?.email);
+        userEmail && fetchData();
+    }, [user, userEmail, loaded]);
+
+    const fetchData = async () => {
+        let response = await fetch(`http://localhost:8080/userfavorites/${userEmail}`);
+        try {
+            let responseJson = await response.json();
+            setUserFavoritesList(responseJson);
+            setLoaded(1);
+        } catch (error) {
+            console.log(error);
+        }
+
+        if (userFavoritesList) {
+            let itineraryList = [];
+            for (const itineraryId of userFavoritesList) {
+                response = await fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`);
+                try {
+                    let responseJson = await response.json();
+                    itineraryList.push(responseJson);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            setUserFavoritesListOfItineraries(itineraryList);
+        }
+    }
 
     return (
         <>
@@ -46,17 +66,15 @@ const HomePage = () => {
             <Paper elevation={3} style={paperStyle}>
                 <h1>Favorited Itineraries</h1>
                 <br />
-                {userFavoritesList?.length === 0 ?
-                    <h3>No favorited itineraries!</h3> :
-                    <h3>Justin is still working on this part! But you have favorited itineraries</h3>
-                    //TODO Add Showing the Favorited Itineraries which can be found in userFavoritesListOfItineraries and filling that list needs completed first
-    //                userFavoritesListOfItineraries.map(itinerary => (
-    //                    <Paper elevation={6} style={{margin:"10px", padding:"15px", textAlign:"left"}} key={itinerary.id}>
-    //                        Itinerary Information to appear
-    //                    </Paper>
-    //                ))
+                {userFavoritesListOfItineraries?.length ?
+                    userFavoritesListOfItineraries.map(itinerary => (
+                        <Paper elevation={6} style={{margin:"10px", padding:"15px", textAlign:"left"}} key={itinerary.id}>
+                            {itinerary.name}<br/>
+                            <Link to={`/review/${itinerary.id}`}>See reviews</Link>
+                        </Paper>
+                    )) :
+                    <h3>No favorited itineraries!</h3>
                 }
-                <br/>
             </Paper>
         </>
     );

@@ -20,12 +20,14 @@ const ReviewPage = () => {
     const userEmail = user ? user.email : null;
 
     useEffect(() => {
-        userEmail && fetch(`http://localhost:8080/userfavorites/${userEmail}`).then(res => res.json()).then(result => setFavorite(result.includes(itineraryId)));
+        userEmail && fetch(`http://localhost:8080/userfavorites/${userEmail}`).then(res => res.json()).then(result => setFavorite(result.includes(itineraryId))).catch(error => null);
         fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`).then(res => res.json()).then(result => setItinerary(result));
     }, [user]);
 
     useEffect(() => {
-        setReviews(itinerary.reviews);
+        if (itinerary?.reviews?.length !== 0) {
+            setReviews(itinerary.reviews);
+        }
     }, [itinerary]);
 
     const handleSubmit = (e) => {
