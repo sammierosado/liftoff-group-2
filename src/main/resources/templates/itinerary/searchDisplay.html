@@ -38,6 +38,17 @@
         <th:block th:each = "itineraryDetails : ${itineraryDetails}">
             <td th:text = "${itineraryDetails.name.split(',')[1]}"></td>
         </th:block></tr>
+    <tr>
+        <th>DESTINATION SPOT IMAGE</th>
+        <th:block th:each = "destination : ${Destination}">
+            <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td>
+        </th:block></tr>
+    <tr>
+        <th></th>
+        <th:block th:each = "destination : ${Destination}">
+            <td><a th:href = "@{http://localhost:8080/itineraries/pointsofinterest/{id}(id=${destination.id})}">See Points of Interest</a></td><td></td>
+        </th:block>
+    </tr>
 
 </table>
 <h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>

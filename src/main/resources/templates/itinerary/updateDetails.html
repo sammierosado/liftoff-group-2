@@ -50,6 +50,13 @@
             <td>  <input type = "text" name = "name" th:value = "${itineraryDetails.name.split(',')[1]}"  /><br /></td>
 
          </th:block></tr>
+      <tr>
+         <th>DESTINATION POINTS OF INTEREST</th>
+         <th:block th:each = "pointsOfInterest : ${pointsOfInterest}" >
+
+            <td>  <textarea name = "description" th:field = "${pointsOfInterest.description}" placeholder="${pointsOfInterest.description}" ></textarea><br /></td>
+
+         </th:block></tr>
 
 
    </table>
