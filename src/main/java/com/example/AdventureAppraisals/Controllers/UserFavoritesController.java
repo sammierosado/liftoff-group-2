@@ -42,6 +42,10 @@ public class UserFavoritesController {
     @PostMapping("/add/{name}")
     public UserFavorites addToUsersFavoritesList(@RequestBody Itinerary itinerary, @PathVariable String name) {
 
+        if (name.equals("undefined")) {
+            return null;
+        }
+
         List<Integer> newUserFavoritesList = new ArrayList<>();
         newUserFavoritesList.add(itinerary.getId());
         UserFavorites newUserFavorites = new UserFavorites(name, newUserFavoritesList);

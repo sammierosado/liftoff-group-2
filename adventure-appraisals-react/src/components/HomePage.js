@@ -9,12 +9,21 @@ const HomePage = () => {
     const { user } = UserAuth();
     const paperStyle = {padding:'50px 20px', width:600, margin:'20px auto', textAlign:"center"};
     const userEmail = user ? user.email : null;
+    let itineraryList = [];
 
     const [ userFavoritesList, setUserFavoritesList ] = React.useState();
+    const [ userFavoritesListOfItineraries, setUserFavoritesListOfItineraries ] = React.useState([]);
 
     React.useEffect(() => {
         userEmail && fetch(`http://localhost:8080/userfavorites/${userEmail}`).then(res => res.json()).then(result => setUserFavoritesList(result));
-        console.log(userFavoritesList);
+//        itineraryList=[];
+//        userFavoritesList && for (const itineraryId of userFavoritesList) {
+//          fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`).then(res => res.json()).then(result => itineraryList.push(result));
+//        }
+//        setUserFavoritesListOfItineraries(itineraryList);
+        //TODO For loop through itinerary IDs in userFavoritesList and get the Itinerary and push the itinerary to userFavoritesListOfItineraries
+        //TODO Test above TODO
+        console.log(userFavoritesListOfItineraries);
     })
 
     return (
@@ -40,16 +49,14 @@ const HomePage = () => {
                 {userFavoritesList?.length === 0 ?
                     <h3>No favorited itineraries!</h3> :
                     <h3>Justin is still working on this part! But you have favorited itineraries</h3>
-    //                reviews.map(review => (
-    //                    <Paper elevation={6} style={{margin:"10px", padding:"15px", textAlign:"left"}} key={review.id}>
-    //                        {review.userEmail} rated and said:<br />
-    //                        <Rating value={review.rating} disabled /><br />
-    //                        {review.review}
+                    //TODO Add Showing the Favorited Itineraries which can be found in userFavoritesListOfItineraries and filling that list needs completed first
+    //                userFavoritesListOfItineraries.map(itinerary => (
+    //                    <Paper elevation={6} style={{margin:"10px", padding:"15px", textAlign:"left"}} key={itinerary.id}>
+    //                        Itinerary Information to appear
     //                    </Paper>
     //                ))
                 }
                 <br/>
-                //TODO Add Showing the Favorited Itineraries
             </Paper>
         </>
     );
