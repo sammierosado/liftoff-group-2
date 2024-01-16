@@ -14,8 +14,6 @@ public abstract class AbstractEntity {
 
     private String name;
 
-
-
     public int getId() {
         return id;
     }
@@ -29,8 +27,6 @@ public abstract class AbstractEntity {
     public void setName(String name) {
         this.name = name;
     }
-
-
 
     @Override
     public String toString() { return name; }
