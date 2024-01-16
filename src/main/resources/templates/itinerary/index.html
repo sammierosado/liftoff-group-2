@@ -80,7 +80,7 @@
     </tr>
     <tr>
         <th></th>
-        <th:block th:each = "itinerary : ${Itineraries}">
+        <th:block th:each = "itinerary : ${ItinerariesDetails}">
             <td><a th:href = "@{http://localhost:3000/review/{id}(id=${itinerary.id})}">See Reviews</a></td><td></td>
         </th:block>
     </tr>
