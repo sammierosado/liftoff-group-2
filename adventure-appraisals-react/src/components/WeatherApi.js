@@ -9,7 +9,7 @@ const WeatherApi = () => {
     useEffect(() => {
         const fetchWeather = async () => {
         try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=28.5383&lon=-81.3792&appid={cd98ff688924fb4a30ea8344860d0639}`);
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=cd98ff688924fb4a30ea8344860d0639&units=imperial`);
         const data = await response.json();
 
         if (response.ok) {
@@ -35,7 +35,8 @@ const WeatherApi = () => {
         }
 
         if (!weatherData || !weatherData.main) {
-        return <p> No weather data available</p>
+        return <p className='text-center text-1xl text-blue-900 font-bold mt-4'>
+        No weather data available</p>
         }
 
         console.log("data:", weatherData);
@@ -47,16 +48,21 @@ const WeatherApi = () => {
 
  return (
        <div>
-         <p id="location">{name}, {country}</p>
-         <p id="temperature">{temp}°C</p>
-         <p id="description">{weatherDescription}</p>
+       <p className='text-center text-1xl text-blue-900 font-bold mt-4'
+         id="location">{name}, {country}</p>
+         <p className='text-center text-1xl text-blue-900 font-bold mt-4'
+          id="temperature">Temperature: {temp} °F</p>
+         <p className='text-center text-1xl text-blue-900 font-bold mt-4'
+          id="description">Weather Conditions: {weatherDescription}</p>
        </div>
      );
    };
 
    return (
      <div>
-       <h1>Weather Information</h1>
+     <h1 className='text-center text-2xl text-blue-900 font-bold mt-4'>
+      Current Weather
+      </h1>
        {display()}
      </div>
    );
