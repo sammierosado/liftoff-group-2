@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class Destination extends AbstractEntity{
 
-
+    private String name;
     private String image;
     @OneToMany(mappedBy = "destination")
     private final List<Itinerary> itinerary = new ArrayList<>();
@@ -28,6 +28,14 @@ public class Destination extends AbstractEntity{
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Itinerary> getItinerary() {

@@ -6,6 +6,7 @@ import com.example.AdventureAppraisals.models.Itinerary;
 import com.example.AdventureAppraisals.models.ItineraryDetails;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,7 +34,6 @@ public class ItineraryController {
 
     @Autowired
     private DestinationRepository destinationRepository;
-
 
 
     @GetMapping
@@ -170,32 +170,32 @@ public class ItineraryController {
         List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
         for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
 
-                if (itineraryDetails.getName().toLowerCase().contains(word.toLowerCase())) {
-                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
-                        matchingItineraryDetails.add(itineraryDetails);
-                    }
-                }
-                if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
-                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
-                        matchingItineraryDetails.add(itineraryDetails);
-                    }
-                }
-                if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
-                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
-                        matchingItineraryDetails.add(itineraryDetails);
-                    }
-                }
-                if (itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
-                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
-                        matchingItineraryDetails.add(itineraryDetails);
-                    }
-                }
-                if (itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
-                    if (!matchingItineraryDetails.contains(itineraryDetails)) {
-                        matchingItineraryDetails.add(itineraryDetails);
-                    }
+            if (itineraryDetails.getName().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
                 }
             }
+            if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+            if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+            if (itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+            if (itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+        }
 
 
         if(matchingItineraryDetails.isEmpty()){
@@ -236,6 +236,8 @@ public class ItineraryController {
     @GetMapping("/itinerary/{id}")
     @ResponseBody
     public Optional<Itinerary> getItineraryById(@PathVariable int id) {
+        System.out.println(id);
+        System.out.println(itineraryRepository.findById(id));
         return itineraryRepository.findById(id);
     }
 

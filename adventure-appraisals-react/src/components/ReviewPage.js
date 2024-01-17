@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Container, Paper, Rating, TextField } from "@mui/material";
 import WeatherApi from "./WeatherApi"
 
+
 const ReviewPage = () => {
     const { user } = UserAuth();
     const paperStyle= {padding:'50px 20px', width:600, margin:'20px auto', textAlign:"center"};
@@ -19,11 +20,15 @@ const ReviewPage = () => {
     const itineraryId = Number(url.substring(url.lastIndexOf('/') + 1));
     const userEmail = user?.email;
 
-    useEffect(() => {
-        fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`)
-        .then(res => res.json())
-        .then(result => setItinerary(result));
-    }, []);
+
+useEffect(() => {
+    fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`)
+    .then(res => res.json())
+    .then(result => {
+    setItinerary(result);
+
+    });
+}, []);
 
 
     useEffect(() => {
@@ -66,7 +71,6 @@ const ReviewPage = () => {
                     <h1>Sign in to add a new review</h1>
                 </Paper>
             )}
-            <WeatherApi />
 
             <Paper elevation={3} style={paperStyle}>
                 <h1>Reviews</h1>
