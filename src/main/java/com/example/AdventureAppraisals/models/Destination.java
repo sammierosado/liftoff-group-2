@@ -18,9 +18,6 @@ import java.util.List;
 @Entity
 public class Destination extends AbstractEntity{
 
-//    @Lob
-//    @Column(columnDefinition = "LONGBLOB")
-//    private byte[] image;
 
     private String image;
 
@@ -41,6 +38,14 @@ public class Destination extends AbstractEntity{
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Itinerary> getItinerary() {

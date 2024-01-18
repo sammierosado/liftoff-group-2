@@ -35,9 +35,12 @@ public class Itinerary extends AbstractEntity {
         this.itineraryDetails = itineraryDetails;
     }
 
-    public Itinerary() {}
+
 
     public List<Review> getReviews() {
         return reviews;
     }
-}
+
+
+    }
+
