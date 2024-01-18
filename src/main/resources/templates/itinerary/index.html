@@ -3,68 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<div>
+    <h1 class='text-center text-3xl text-blue-900 font-bold mt-4'>
+        Adventure Appraisals
+    </h1>
+    <nav class="bg-blue-200 p-4 mt-4">
+        <ul class="flex space-x-4 w-full">
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000" class="text-white">Home</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries/search" class="text-white">Search</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries" class="text-white">Itineraries</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/userPage" class="text-white">User Page</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries/destination" class="text-white">Destinations</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/login" class="text-white">Login</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/userSignUp" class="text-white">SignUp</a>
+            </li>
+        </ul>
+    </nav>
 <body>
 <nav>
-<table>
+<table class="mx-auto">
     <tr>
 
         <td>
-            <h3><a href = "http://localhost:8080/itineraries/create" >CREATE ITINERARIES</a></h3>
+            <h3><a href = "http://localhost:8080/itineraries/create" class="text-blue-900 underline ml-4"  >CREATE ITINERARIES</a></h3>
         </td>
         <td></td>
         <td></td>
         <td>
-            <h3><a href = "http://localhost:8080/itineraries/search" > SEARCH ITINERARIES</a></h3>
+            <h3><a href = "http://localhost:8080/itineraries/search" class="text-blue-900 underline ml-4"  > SEARCH ITINERARIES</a></h3>
         </td>
 
     </tr>
 </table>
 </nav>
-<h1> ITINERARIES </h1>
-<table>
+<h1 class="font-bold text-center text-blue-900 py-2 text-2xl mb-2 mt-4 ml-4"> ITINERARIES </h1>
+<table class="mx-auto">
 
 
     <tr>
-    <th>ITINERARY NAME</th>
+    <th class="block py-2 font-small mt-4 ml-4">ITINERARY NAME</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}" >
     <td th:text = "${itineraryDetails.name.split(',')[0]}"></td>
-    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
+    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}" class="text-blue-900 underline mr-10">Update</a></td>
 
     </th:block></tr>
     <tr>
-    <th>FROM CITY</th>
+    <th class="block py-2 font-small mt-4 ml-4">FROM CITY</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.fromCity}"></td>
-        <td><a th:href="@{/itineraries/delete/{id}(id=${itineraryDetails.id})}">Delete</a></td>
+        <td><a th:href="@{/itineraries/delete/{id}(id=${itineraryDetails.id})}" class="text-blue-900 underline mr-10">Delete</a></td>
     </th:block></tr>
     <tr>
-    <th>TO CITY</th>
+    <th class="block py-2 font-small mt-4 ml-4">TO CITY</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.toCity}"></td>
         <td></td>
     </th:block></tr>
     <tr>
-    <th>TRAVEL START DATE</th>
+    <th class="block py-2 font-small mt-4 ml-4">TRAVEL START DATE</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.travelStartDateTime}"></td>
     <td></td>
     </th:block></tr>
     <tr>
-    <th>TRAVEL END DATE</th>
+    <th class="block py-2 font-small mt-4 ml-4">TRAVEL END DATE</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.travelEndDateTime}"></td>
         <td></td>
     </th:block> </tr>
     <tr>
-    <th>DESTINATION SPOT</th>
+    <th class="block py-2 font-small mt-4 ml-4">DESTINATION SPOT</th>
     <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
     <td th:text = "${itineraryDetails.name.split(',')[1]}"></td>
         <td></td>
     </th:block></tr>
     <tr>
 
-        <th>DESTINATION SPOT IMAGE</th>
+        <th lass="block py-2 font-small mt-4 ml-4">DESTINATION SPOT IMAGE</th>
         <th:block th:each = "destination : ${Destination}">
             <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td><td></td>
         </th:block>
@@ -75,13 +105,13 @@
         <th></th>
 
         <th:block th:each = "destination : ${Destination}">
-            <td><a th:href = "@{/itineraries/upload/{id}(id=${destination.id})}">Upload</a></td><td></td>
+            <td><a th:href = "@{/itineraries/upload/{id}(id=${destination.id})}" class="text-blue-900 underline ml-4">Upload</a></td><td></td>
         </th:block>
     </tr>
     <tr>
         <th></th>
         <th:block th:each = "itinerary : ${ItinerariesDetails}">
-            <td><a th:href = "@{http://localhost:3000/review/{id}(id=${itinerary.id})}">See Reviews</a></td><td></td>
+            <td><a th:href = "@{http://localhost:3000/review/{id}(id=${itinerary.id})}" class="text-blue-900 underline ml-4">See Reviews</a></td><td></td>
         </th:block>
     </tr>
 
@@ -89,6 +119,6 @@
 
 
 </table>
-<h3><a href="http://localhost:3000/"> GO TO HOMEPAGE </a></h3>
+<h3><a href="http://localhost:3000/" class="text-blue-900 underline ml-4"> GO TO HOMEPAGE </a></h3>
 </body>
 </html>
