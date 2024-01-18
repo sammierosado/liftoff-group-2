@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create itineraries Form</title>
 </head>
 <body>
 <h1> CREATE ITINERARIES FORM </h1>
@@ -14,6 +14,9 @@
     <label> TravelStartDateTime <input type = "datetime-local"  name = "itinerary.itineraryDetails.travelStartDateTime" th:field="${itineraryDetails.travelStartDateTime}" /></label><br />
     <label> TravelEndDateTime : <input type = "datetime-local"  name = "itinerary.itineraryDetails.travelEndDateTime" th:field="${itineraryDetails.travelEndDateTime}" /></label><br />
     <label> DestinationSpot : <input type = "text"  name = "itinerary.destination.name" th:field="${destination.name}" /></label><br />
+    <label> Points Of Interest1 : <input type = "text" name ="description" th:field = "${pointsOfInterest.description}"></label><br />
+    <label> Points Of Interest2 : <input type = "text" name ="description" th:field = "${pointsOfInterest.description}"></label><br />
+    <label> Points Of Interest3 : <input type = "text" name ="description" th:field = "${pointsOfInterest.description}"></label><br />
     <button type = "Submit"> Create </button>
 
 </form>

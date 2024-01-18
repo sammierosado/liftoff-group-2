@@ -1,9 +1,11 @@
+
 package com.example.AdventureAppraisals.Controllers;
 
 import com.example.AdventureAppraisals.Data.*;
 import com.example.AdventureAppraisals.models.Destination;
 import com.example.AdventureAppraisals.models.Itinerary;
 import com.example.AdventureAppraisals.models.ItineraryDetails;
+import com.example.AdventureAppraisals.models.PointsOfInterest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,8 @@ public class ItineraryController {
     @Autowired
     private DestinationRepository destinationRepository;
 
+    @Autowired
+    private PointsOfInterestRepository pointsOfInterestRepository;
 
     @GetMapping
     public String displayItineraries(Model model) {
@@ -57,12 +61,15 @@ public class ItineraryController {
         model.addAttribute(new Itinerary());
         model.addAttribute(new ItineraryDetails());
         model.addAttribute(new Destination());
+        model.addAttribute(new PointsOfInterest());
+        model.addAttribute(new PointsOfInterest());
+        model.addAttribute(new PointsOfInterest());
         return "itinerary/create";
     }
 
     @Transactional
     @PostMapping("/create")
-    public String processCreateItineraryForm(@ModelAttribute Itinerary newItinerary, @ModelAttribute ItineraryDetails newItineraryDetails, @ModelAttribute Destination newDestination, Errors errors, Model model) {
+    public String processCreateItineraryForm(@ModelAttribute Itinerary newItinerary, @ModelAttribute ItineraryDetails newItineraryDetails, @ModelAttribute Destination newDestination, @ModelAttribute PointsOfInterest newPointsOfInterest1, @ModelAttribute PointsOfInterest newPointsOfInterest2, @ModelAttribute PointsOfInterest newPointsOfInterest3, Errors errors, Model model) {
         if (errors.hasErrors()) {
             model.addAttribute("Create Itineraries", "Create itineraries");
             model.addAttribute("errorMsg", "BadData");
@@ -71,6 +78,9 @@ public class ItineraryController {
         itineraryRepository.save(newItinerary);
         itineraryDetailsRepository.save(newItineraryDetails);
         destinationRepository.save(newDestination);
+        pointsOfInterestRepository.save(newPointsOfInterest1);
+        pointsOfInterestRepository.save(newPointsOfInterest2);
+        pointsOfInterestRepository.save(newPointsOfInterest3);
         return "redirect:/itineraries";
     }
 
@@ -81,7 +91,6 @@ public class ItineraryController {
         Optional<ItineraryDetails> itineraryDetailsOptional = itineraryDetailsRepository.findById(id);
         ItineraryDetails itineraryDetails = itineraryDetailsOptional.get();
         model.addAttribute("itineraryDetails", itineraryDetails);
-
         return "itinerary/delete";
     }
 
@@ -105,6 +114,12 @@ public class ItineraryController {
                 destinationRepository.delete(destination);
             }
         }
+        Iterable<PointsOfInterest> pointsOfInterestIterable = pointsOfInterestRepository.findAll();
+        for(PointsOfInterest pointsOfInterest : pointsOfInterestIterable){
+            if((pointsOfInterest.getName().toLowerCase().contains(priorName.toLowerCase()))){
+                pointsOfInterestRepository.delete(pointsOfInterest);
+            }
+        }
         itineraryDetailsRepository.deleteById(id);
         return "redirect:/itineraries";
     }
@@ -118,14 +133,22 @@ public class ItineraryController {
         model.addAttribute("Update itineraries", "Update Itineraries");
         Optional<ItineraryDetails> itineraryDetailsOptional = itineraryDetailsRepository.findById(id);
         ItineraryDetails itineraryDetails = itineraryDetailsOptional.get();
+        String priorName = itineraryDetails.getName();
         model.addAttribute("itineraryDetails", itineraryDetails);
+        Iterable<PointsOfInterest> pointsOfInterestIterable = pointsOfInterestRepository.findAll();
+        for(PointsOfInterest pointsOfInterest : pointsOfInterestIterable){
+            if((pointsOfInterest.getName().contains(priorName))){
+                model.addAttribute("pointsOfInterest",pointsOfInterest);
+            }
+        }
+
         return "itinerary/updateDetails";
     }
 
 
     @Transactional
     @PatchMapping("/updateDetails/{id}")
-    public String updateItineraryFormData8(Model model, @PathVariable int id, @RequestParam String name, @RequestParam String fromCity, @RequestParam String toCity, @RequestParam LocalDateTime travelStartDateTime, @RequestParam LocalDateTime travelEndDateTime) {
+    public String updateItineraryFormData8(Model model, @PathVariable int id, @RequestParam String name, @RequestParam String fromCity, @RequestParam String toCity, @RequestParam LocalDateTime travelStartDateTime, @RequestParam LocalDateTime travelEndDateTime, @RequestParam String description) {
         model.addAttribute("Update itineraries", "Update Itineraries");
         Optional<ItineraryDetails> itineraryDetailsOptional = itineraryDetailsRepository.findById(id);
         ItineraryDetails itineraryDetails = itineraryDetailsOptional.get();
@@ -151,6 +174,14 @@ public class ItineraryController {
                 destinationRepository.save(destination);
             }
         }
+        Iterable<PointsOfInterest> pointsOfInterestIterable = pointsOfInterestRepository.findAll();
+        for(PointsOfInterest pointsOfInterest : pointsOfInterestIterable){
+            if((pointsOfInterest.getName().contains(priorName))){
+                pointsOfInterest.setDescription(description);
+
+                pointsOfInterestRepository.save(pointsOfInterest);
+            }
+        }
 
         return "redirect:/itineraries";
     }
@@ -168,6 +199,10 @@ public class ItineraryController {
         model.addAttribute("Search Results", "Search Results");
         Iterable<ItineraryDetails> itineraryDetailsIterable = itineraryDetailsRepository.findAll();
         List<ItineraryDetails> matchingItineraryDetails = new ArrayList<>();
+        Iterable<Destination> destinationIterable = destinationRepository.findAll();
+
+
+        List<Destination> matchingDestination = new ArrayList<>();
         for (ItineraryDetails itineraryDetails : itineraryDetailsIterable) {
 
             if (itineraryDetails.getName().toLowerCase().contains(word.toLowerCase())) {
@@ -197,11 +232,67 @@ public class ItineraryController {
             }
         }
 
+            if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
+                for(Destination destination : destinationIterable){
+                    if (destination.getName().toLowerCase().contains(itineraryDetails.getName().toLowerCase())) {
+                        if (!matchingDestination.contains(destination)) {
+                            matchingDestination.add(destination);
+
+                        }
+                    }
+                }
+
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+            if (itineraryDetails.getToCity().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+            if (itineraryDetails.getTravelStartDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
+                for(Destination destination : destinationIterable){
+                    if (destination.getName().toLowerCase().contains(itineraryDetails.getName().toLowerCase())) {
+                        if (!matchingDestination.contains(destination)) {
+                            matchingDestination.add(destination);
+
+                        }
+                    }
+                }
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+            if (itineraryDetails.getTravelEndDateTime().toString().toLowerCase().equals(word.toLowerCase())) {
+                for(Destination destination : destinationIterable){
+                    if (destination.getName().toLowerCase().contains(itineraryDetails.getName().toLowerCase())) {
+                        if (!matchingDestination.contains(destination)) {
+                            matchingDestination.add(destination);
+
+                        }
+                    }
+                }
+                if (!matchingItineraryDetails.contains(itineraryDetails)) {
+                    matchingItineraryDetails.add(itineraryDetails);
+                }
+            }
+        }
+
+        for(Destination destination : destinationIterable){
+            if (destination.getName().toLowerCase().contains(word.toLowerCase())) {
+                if (!matchingDestination.contains(destination)) {
+                    matchingDestination.add(destination);
+                }
+            }
+        }
+
 
         if(matchingItineraryDetails.isEmpty()){
             return "itinerary/NoSearchResults";
         }
         else{
+            model.addAttribute("Destination",matchingDestination);
             model.addAttribute("itineraryDetails", matchingItineraryDetails);
             return "itinerary/searchDisplay";
         }
@@ -217,15 +308,15 @@ public class ItineraryController {
         return "itinerary/uploadForm";
     }
 
-    @PutMapping("/upload/{id}")
+    @PatchMapping("/upload/{id}")
     public String processUploadImageForm(Model model, @RequestParam("file") MultipartFile file, @PathVariable int id) throws IOException {
         model.addAttribute("Upload Image","Upload Image");
         Optional<Destination> destinationOptional = destinationRepository.findById(id);
         Destination destination = destinationOptional.get();
         byte[] bytes = file.getBytes();
-        Path path = Paths.get(File.separator+"Users"+File.separator+"sugan"+File.separator +"IdeaProjects"+File.separator +"liftoff-group-2"+File.separator +"src"+File.separator +"main"+File.separator+"resources"+File.separator+"static"+File.separator+"image"+File.separator + file.getOriginalFilename());
+        Path path = Paths.get(File.separator+"Users"+File.separator+"sugan"+File.separator +"IdeaProjects"+File.separator +"liftoff-group-2"+File.separator +"src"+File.separator +"main"+File.separator+"resources"+File.separator+"static"+File.separator+"photos"+File.separator + file.getOriginalFilename());
         Files.write(path,bytes);
-        destination.setImage(File.separator+"image"+File.separator + file.getOriginalFilename());
+        destination.setImage(File.separator+"photos"+File.separator + file.getOriginalFilename());
         model.addAttribute("Destination", destination);
         destinationRepository.save(destination);
         return "redirect:/itineraries";
@@ -241,4 +332,36 @@ public class ItineraryController {
         return itineraryRepository.findById(id);
     }
 
+    @GetMapping("/pointsofinterest/{id}")
+    public String addPointsOfInterest(@PathVariable int id, Model model) {
+        model.addAttribute("Points Of Interest", "Points Of Interest");
+        Optional<Destination> destinationOptional = destinationRepository.findById(id);
+        Destination destination = destinationOptional.get();
+        Iterable<PointsOfInterest> pointsOfInterestIterable = pointsOfInterestRepository.findAll();
+        List<PointsOfInterest> matchingPointsOfInterest = new ArrayList<>();
+        for (PointsOfInterest pointsOfInterest : pointsOfInterestIterable) {
+            if (pointsOfInterest.getName().contains(destination.getName())) {
+                if (!matchingPointsOfInterest.contains(pointsOfInterest)) {
+                    matchingPointsOfInterest.add(pointsOfInterest);
+                    model.addAttribute("matchingPointsOfInterest", matchingPointsOfInterest);
+                    model.addAttribute("destination", destination);
+                }
+
+            }
+        }
+        if(matchingPointsOfInterest.isEmpty()){
+
+            return "itinerary/nopointsofinterest";
+
+        }
+
+        return "itinerary/pointsofinterest";
+    }
+
 }
+
+
+
+
+
+

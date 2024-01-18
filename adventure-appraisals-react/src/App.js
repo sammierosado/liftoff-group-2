@@ -64,12 +64,15 @@ import WeatherApi from './components/WeatherApi';
           <ProtectedRoute>
           <UserPage />
           </ProtectedRoute> } />
+
+
           <Route path="/review/*" element={
           <>
            <WeatherApi />
           <ReviewPage />
            </>
            } />
+
 
     </Routes>
     </AuthContextProvider>

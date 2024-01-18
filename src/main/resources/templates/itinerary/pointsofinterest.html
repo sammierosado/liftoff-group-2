@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>NEARBY POINTS OF INTEREST FOR :</th>
+        <th:block th:each = "destination : ${destination}" >
+            <td th:text = "${destination.name.split(',')[1]}"></td>
+
+
+        </th:block></tr>
+
+
+    <tr>
+        <th>Description</th>
+        <th:block th:each = "pointsofinterest : ${matchingPointsOfInterest}" >
+
+            <td th:text = "${pointsofinterest.description}"></td> <td></td>
+
+        </th:block></tr>
+
+    <tr>
+        <td>
+            <h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3></td>
+    </tr>
+</table>
+
+</body>
+</html>
+
