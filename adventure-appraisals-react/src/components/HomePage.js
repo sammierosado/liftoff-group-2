@@ -14,7 +14,7 @@ const HomePage = () => {
     const [ loaded, setLoaded ] = React.useState();
     const [ userEmail, setUserEmail ] = React.useState();
     const [ userFavoritesList, setUserFavoritesList ] = React.useState();
-    const [ userFavoritesListOfItineraries, setUserFavoritesListOfItineraries ] = React.useState();
+    const [ userFavoritesListOfItineraries, setUserFavoritesListOfItineraries ] = React.useState([]);
 
     React.useEffect(() => {
         setUserEmail(user?.email);
@@ -27,6 +27,7 @@ const HomePage = () => {
             let responseJson = await response.json();
             setUserFavoritesList(responseJson);
             setLoaded(1);
+            console.log(userFavoritesList);
         } catch (error) {
             console.log(error);
         }
@@ -37,12 +38,15 @@ const HomePage = () => {
                 response = await fetch(`http://localhost:8080/itineraries/itinerary/${itineraryId}`);
                 try {
                     let responseJson = await response.json();
-                    itineraryList.push(responseJson);
+                    if (responseJson !== null) {
+                        itineraryList.push(responseJson);
+                    }
                 } catch (error) {
                     console.log(error);
                 }
             }
             setUserFavoritesListOfItineraries(itineraryList);
+            console.log(userFavoritesListOfItineraries);
         }
     }
 
@@ -66,7 +70,7 @@ const HomePage = () => {
             <Paper elevation={3} style={paperStyle}>
                 <h1>Favorited Itineraries</h1>
                 <br />
-                {userFavoritesListOfItineraries?.length ?
+                {userFavoritesListOfItineraries.length > 0 ?
                     userFavoritesListOfItineraries.map(itinerary => (
                         <Paper elevation={6} style={{margin:"10px", padding:"15px", textAlign:"left"}} key={itinerary.id}>
                             {itinerary.name}<br/>
