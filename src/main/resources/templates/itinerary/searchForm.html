@@ -3,17 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<form method = "post" th:action = "@{/itineraries/search/{word}(word = ${word})}" >
-    <h1> SEARCH ITINERARY </h1>
-    <table>
+<div>
+    <h1 class='text-center text-3xl text-blue-900 font-bold mt-4'>
+        Adventure Appraisals
+    </h1>
+    <nav class="bg-blue-200 p-4 mt-4">
+        <ul class="flex space-x-4 w-full">
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000" class="text-white">Home</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries/search" class="text-white">Search</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries" class="text-white">Itineraries</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/userPage" class="text-white">User Page</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries/destination" class="text-white">Destinations</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/login" class="text-white">Login</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/userSignUp" class="text-white">SignUp</a>
+            </li>
+        </ul>
+    </nav>
+    <body>
+    <div class=" flex justify-center items-center mb-8 ml-4">
+<form method = "post" th:action = "@{/itineraries/search/{word}(word = ${word})}" class="form-style">
+    <h2 class="font-bold text-blue-900 py-2 text-1xl mb-2 mt-4"> SEARCH ITINERARY </h2>
+
+    <table class="mx-auto">
         <tr>
-            <th>SEARCH </th>
-            <td>  <input type = "text" name = "word" id = "word" /><br /></td>
+            <th class=" font-medium py-4 mb-4 mt-4 ml-4">SEARCH </th>
+            <td>  <input type = "text" name = "word" id = "word" class="border border-blue-500 p-1 text-sm" /></td>
     </table>
-    <button type = "Submit"> Search</button>
+    <button type = "Submit" class="border border-blue-500 bg-blue-600 hover:bg-blue-500 w-1/8 p-4 my-2 py-2 font-small text-white mt-4 ml-4"> Search</button>
 </form>
-<h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
+<h3><a href = "http://localhost:8080/itineraries" class="text-blue-900 underline ml-4">BACK TO ITINERARIES</a></h3>
 </body>
+</div>
 </html>
