@@ -3,27 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<div>
+    <h1 class='text-center text-3xl text-blue-900 font-bold mt-4'>
+        Adventure Appraisals
+    </h1>
+    <nav class="bg-blue-200 p-4 mt-4">
+        <ul class="flex space-x-4 w-full">
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000" class="text-white">Home</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries/search" class="text-white">Search</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries" class="text-white">Itineraries</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/userPage" class="text-white">User Page</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:8080/itineraries/destination" class="text-white">Destinations</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/login" class="text-white">Login</a>
+            </li>
+            <li class="flex-grow flex-1">
+                <a href="http://localhost:3000/userSignUp" class="text-white">SignUp</a>
+            </li>
+        </ul>
+    </nav>
 <body>
-<H1> DESTINATION SPOTS</H1>
-<table>
+<div class=" flex justify-center items-center mb-8 ml-4">
+    <h2 class="font-bold text-blue-900 py-2 text-2xl mb-2 mt-4 ml-4">DESTINATION SPOTS</h2>
+    </div>
+<table class="mx-auto">
 <tr>
-    <th>DESTINATION SPOT</th>
+    <th class=" font-medium py-4 mb-4 mt-4 ml-4"DESTINATION SPOT></th>
     <th:block th:each = "destination : ${Destination}">
-        <td th:text = "${destination.name}"></td>
+        <td class="py-2"><span th:text = "${destination.name}"></span></td>
         <td></td>
     </th:block></tr>
 <tr>
 
-    <th>DESTINATION SPOT IMAGE</th>
+    <th class="font-small py-4 mb-4 mt-4 ml-4">DESTINATION SPOT IMAGE</th>
     <th:block th:each = "destination : ${Destination}">
-        <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td><td></td>
+        <td class="py-2"><img th:src =  "${destination.image}" alt = "IMAGE" /></td><td></td>
     </th:block>
 
 
 </tr>
 
 </table>
-<h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
+
+<h3><a href = "http://localhost:8080/itineraries" class="text-blue-900 underline ml-4">BACK TO ITINERARIES</a></h3>
 </body>
 </html>

@@ -223,7 +223,7 @@ public class ItineraryController {
         Optional<Destination> destinationOptional = destinationRepository.findById(id);
         Destination destination = destinationOptional.get();
         byte[] bytes = file.getBytes();
-        Path path = Paths.get(File.separator+"Users"+File.separator+"sugan"+File.separator +"IdeaProjects"+File.separator +"liftoff-group-2"+File.separator +"src"+File.separator +"main"+File.separator+"resources"+File.separator+"static"+File.separator+"image"+File.separator + file.getOriginalFilename());
+        Path path = Paths.get(File.separator+"Users"+File.separator+"cameron.freeman"+File.separator +"Documents"+File.separator +"liftoff-group-2-Adventure"+File.separator +"src"+File.separator +"main"+File.separator+"resources"+File.separator+"static"+File.separator+"image"+File.separator + file.getOriginalFilename());
         Files.write(path,bytes);
         destination.setImage(File.separator+"image"+File.separator + file.getOriginalFilename());
         model.addAttribute("Destination", destination);
