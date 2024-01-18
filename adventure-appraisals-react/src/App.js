@@ -11,6 +11,7 @@ import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from "firebase/au
 import { useEffect } from "react";
 import firebaseApp from './firebase';
 import ReviewPage from './components/ReviewPage';
+import WeatherApi from './components/WeatherApi';
 
   function App() {
   useEffect(() => {
@@ -63,7 +64,12 @@ import ReviewPage from './components/ReviewPage';
           <ProtectedRoute>
           <UserPage />
           </ProtectedRoute> } />
-          <Route path="/review/*" element={<ReviewPage />} />
+          <Route path="/review/*" element={
+          <>
+           <WeatherApi />
+          <ReviewPage />
+           </>
+           } />
 
     </Routes>
     </AuthContextProvider>

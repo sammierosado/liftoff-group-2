@@ -1,5 +1,6 @@
 package com.example.AdventureAppraisals.Controllers;
 
+import com.example.AdventureAppraisals.models.Destination;
 import com.example.AdventureAppraisals.Data.ItineraryRepository;
 import com.example.AdventureAppraisals.Data.ReviewRepository;
 import com.example.AdventureAppraisals.models.Itinerary;
