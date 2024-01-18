@@ -11,13 +11,12 @@
     <th>DESTINATION SPOT</th>
     <th:block th:each = "destination : ${Destination}">
         <td th:text = "${destination.name}"></td>
-        <td></td>
     </th:block></tr>
 <tr>
 
     <th>DESTINATION SPOT IMAGE</th>
     <th:block th:each = "destination : ${Destination}">
-        <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td><td></td>
+        <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td>
     </th:block>
 
 
