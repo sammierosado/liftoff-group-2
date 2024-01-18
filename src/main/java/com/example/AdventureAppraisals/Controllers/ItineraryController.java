@@ -230,7 +230,6 @@ public class ItineraryController {
                     matchingItineraryDetails.add(itineraryDetails);
                 }
             }
-        }
 
             if (itineraryDetails.getFromCity().toLowerCase().contains(word.toLowerCase())) {
                 for(Destination destination : destinationIterable){
