@@ -19,7 +19,7 @@ public class ReviewController {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    ItineraryRepository itineraryRepository;
+    private ItineraryRepository itineraryRepository;
 
     @GetMapping("/reviews/{id}")
     public List<Review> getReviews(@PathVariable int id) {
