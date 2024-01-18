@@ -9,6 +9,7 @@ public class ItineraryDetails extends AbstractEntity {
     @OneToOne(mappedBy = "itineraryDetails")
     private Itinerary itinerary;
 
+
     private String fromCity;
 
     private String toCity;
