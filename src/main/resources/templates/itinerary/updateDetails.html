@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
    <meta charset="UTF-8">
-   <title>Title</title>
+   <title>Update Itineraries</title>
 </head>
 <body>
 <form method = "post" th:action="@{/itineraries/updateDetails/{id}(id = ${itineraryDetails.id})}" >
@@ -50,6 +50,14 @@
             <td>  <input type = "text" name = "name" th:value = "${itineraryDetails.name.split(',')[1]}"  /><br /></td>
 
          </th:block></tr>
+      <tr>
+         <th>POINTS OF INTEREST</th>
+         <th:block th:each = "pointsofinterest : ${pointsOfInterest}" >
+
+            <td>  <textarea name = "description" th:value = "${pointsOfInterest.description}" th:field = "${pointsOfInterest.description}" ></textarea><br /></td>
+
+         </th:block></tr>
+
 
 
    </table>

@@ -2,80 +2,87 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Itineraries</title>
 </head>
 <body>
 <nav>
-<table>
-    <tr>
+    <table>
+        <tr>
 
-        <td>
-            <h3><a href = "http://localhost:8080/itineraries/create" >CREATE ITINERARIES</a></h3>
-        </td>
-        <td></td>
-        <td></td>
-        <td>
-            <h3><a href = "http://localhost:8080/itineraries/search" > SEARCH ITINERARIES</a></h3>
-        </td>
+            <td>
+                <h3><a href = "http://localhost:8080/itineraries/create" >CREATE ITINERARIES</a></h3>
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+                <h3><a href = "http://localhost:8080/itineraries/search" > SEARCH ITINERARIES</a></h3>
+            </td>
 
-    </tr>
-</table>
+        </tr>
+    </table>
 </nav>
 <h1> ITINERARIES </h1>
 <table>
 
 
     <tr>
-    <th>ITINERARY NAME</th>
-    <th:block th:each = "itineraryDetails : ${ItineraryDetails}" >
-    <td th:text = "${itineraryDetails.name.split(',')[0]}"></td>
-    <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
+        <th>ITINERARY NAME</th>
+        <th:block th:each = "itineraryDetails : ${ItineraryDetails}" >
+            <td th:text = "${itineraryDetails.name.split(',')[0]}"></td>
+            <td><a th:href="@{/itineraries/updateDetails/{id}(id=${itineraryDetails.id})}">Update</a></td>
 
-    </th:block></tr>
+        </th:block></tr>
     <tr>
-    <th>FROM CITY</th>
-    <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
-    <td th:text = "${itineraryDetails.fromCity}"></td>
-        <td><a th:href="@{/itineraries/delete/{id}(id=${itineraryDetails.id})}">Delete</a></td>
-    </th:block></tr>
+        <th>FROM CITY</th>
+        <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
+            <td th:text = "${itineraryDetails.fromCity}"></td>
+            <td><a th:href="@{/itineraries/delete/{id}(id=${itineraryDetails.id})}">Delete</a></td>
+        </th:block></tr>
     <tr>
-    <th>TO CITY</th>
-    <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
-    <td th:text = "${itineraryDetails.toCity}"></td>
-        <td></td>
-    </th:block></tr>
+        <th>TO CITY</th>
+        <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
+            <td th:text = "${itineraryDetails.toCity}"></td>
+            <td></td>
+        </th:block></tr>
     <tr>
-    <th>TRAVEL START DATE</th>
-    <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
-    <td th:text = "${itineraryDetails.travelStartDateTime}"></td>
-    <td></td>
-    </th:block></tr>
+        <th>TRAVEL START DATE</th>
+        <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
+            <td th:text = "${itineraryDetails.travelStartDateTime}"></td>
+            <td></td>
+        </th:block></tr>
     <tr>
-    <th>TRAVEL END DATE</th>
-    <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
-    <td th:text = "${itineraryDetails.travelEndDateTime}"></td>
-        <td></td>
-    </th:block> </tr>
+        <th>TRAVEL END DATE</th>
+        <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
+            <td th:text = "${itineraryDetails.travelEndDateTime}"></td>
+            <td></td>
+        </th:block> </tr>
     <tr>
-    <th>DESTINATION SPOT</th>
-    <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
-    <td th:text = "${itineraryDetails.name.split(',')[1]}"></td>
-        <td></td>
-    </th:block></tr>
+        <th>DESTINATION SPOT</th>
+        <th:block th:each = "itineraryDetails : ${ItineraryDetails}">
+            <td th:text = "${itineraryDetails.name.split(',')[1]}"></td>
+            <td></td>
+        </th:block></tr>
     <tr>
 
         <th>DESTINATION SPOT IMAGE</th>
         <th:block th:each = "destination : ${Destination}">
-            <td><img th:src =  "${destination.image}" alt = "IMAGE" /></td><td></td>
+            <td><img th:src =  "${destination.image}"  alt = "IMAGE" /></td><td></td>
+
         </th:block>
 
 
     </tr>
     <tr>
         <th></th>
+        <th:block th:each = "destination : ${Destination}">
+            <td><a th:href = "@{http://localhost:8080/itineraries/pointsofinterest/{id}(id=${destination.id})}">See Points of Interest</a></td><td></td>
+        </th:block>
+    </tr>
+    <tr>
+        <th></th>
 
         <th:block th:each = "destination : ${Destination}">
-            <td><a th:href = "@{/itineraries/upload/{id}(id=${destination.id})}">Upload</a></td><td></td>
+            <td><a th:href = "@{/itineraries/upload/{id}(id=${destination.id})}">Upload Image</a></td><td></td>
         </th:block>
     </tr>
     <tr>
@@ -88,7 +95,5 @@
 
 
 
-</table>
-<h3><a href="http://localhost:3000/"> GO TO HOMEPAGE </a></h3>
-</body>
-</html>
+
+

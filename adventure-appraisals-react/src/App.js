@@ -63,7 +63,7 @@ import ReviewPage from './components/ReviewPage';
           <ProtectedRoute>
           <UserPage />
           </ProtectedRoute> } />
-          <Route path="/review/*" element={<ReviewPage />} />
+          <Route path="/review" element={<ReviewPage />} />
 
     </Routes>
     </AuthContextProvider>

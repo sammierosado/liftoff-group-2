@@ -2,17 +2,18 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Upload Form</title>
 </head>
 <body>
 <form th:action="@{/itineraries/upload/{id}(id=${Destination.id})}" method="post" enctype = "multipart/form-data">
-    <input type="hidden" name="_method" value = "PUT" />
+    <input type="hidden" name="_method" value = "PATCH" />
 
 
-    <h1> Select an image file to upload</h1>
+
+    <h1> Select an image URL</h1>
     <input type="file" name="file" />
 
-    <button type="submit">Upload</button>
+    <button type="submit" >UPLOAD</button>
     <br />
     <br />
     <br />
