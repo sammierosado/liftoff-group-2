@@ -3,23 +3,53 @@
 <head>
    <meta charset="UTF-8">
    <title>Title</title>
+   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<div>
+   <h1 class='text-center text-3xl text-blue-900 font-bold mt-4'>
+      Adventure Appraisals
+   </h1>
+   <nav class="bg-blue-200 p-4 mt-4">
+      <ul class="flex space-x-4 w-full">
+         <li class="flex-grow flex-1">
+            <a href="http://localhost:3000" class="text-white">Home</a>
+         </li>
+         <li class="flex-grow flex-1">
+            <a href="http://localhost:8080/itineraries/search" class="text-white">Search</a>
+         </li>
+         <li class="flex-grow flex-1">
+            <a href="http://localhost:8080/itineraries" class="text-white">Itineraries</a>
+         </li>
+         <li class="flex-grow flex-1">
+            <a href="http://localhost:3000/userPage" class="text-white">User Page</a>
+         </li>
+         <li class="flex-grow flex-1">
+            <a href="http://localhost:8080/itineraries/destination" class="text-white">Destinations</a>
+         </li>
+         <li class="flex-grow flex-1">
+            <a href="http://localhost:3000/login" class="text-white">Login</a>
+         </li>
+         <li class="flex-grow flex-1">
+            <a href="http://localhost:3000/userSignUp" class="text-white">SignUp</a>
+         </li>
+      </ul>
+   </nav>
 <body>
-<form method = "post" th:action="@{/itineraries/updateDetails/{id}(id = ${itineraryDetails.id})}" >
-   <input type="hidden" name="_method" value = "PATCH" />
+<form method = "post" th:action="@{/itineraries/updateDetails/{id}(id = ${itineraryDetails.id})}" class="form-style">
+   <input type="hidden" name="_method" value = "PATCH" class="form-input mt-1 block w-1/2 border border-gray-300 rounded-md p-2 py-2 font-small ml-4"/>
 
-   <h1> UPDATE ITINERARY DETAILS </h1>
-   <table>
+   <h1 class="font-bold text-center text-blue-900 py-2 text-2xl mb-2 mt-4 ml-4">UPDATE ITINERARY DETAILS </h1>
+   <table class="mx-auto">
       <tr>
-         <th>ITINERARY NAME</th>
+         <th class="block py-2 font-small mt-4">ITINERARY NAME</th>
          <th:block th:each = "itineraryDetails : ${itineraryDetails}" >
-            <td>  <input type = "text" name = "name" th:value = "${itineraryDetails.name.split(',')[0]}"  /><br /></td>
+            <td>  <input type = "text" name = "name" th:value = "${itineraryDetails.name.split(',')[0]}" class="border border-gray-300 p-1" /></td>
          </th:block></tr>
 
       <tr>
          <th>FROM CITY</th>
          <th:block th:each = "itineraryDetails : ${itineraryDetails}">
-            <td><input type = "text" name = "fromCity" th:value = "${itineraryDetails.fromCity}" th:field="${itineraryDetails.fromCity}"  /><br /></td>
+            <td><input type = "text" name = "fromCity" th:value = "${itineraryDetails.fromCity}" th:field="${itineraryDetails.fromCity}" class="border border-gray-300 p-1"/></td>
 
          </th:block></tr>
 
@@ -27,35 +57,35 @@
       <tr>
          <th>TO CITY</th>
          <th:block th:each = "itineraryDetails : ${itineraryDetails}">
-            <td><input type = "text" name = "toCity" th:value = "${itineraryDetails.toCity}" th:field="${itineraryDetails.toCity}"  /></td>
+            <td class="text-left"><input type = "text" name = "toCity" th:value = "${itineraryDetails.toCity}" th:field="${itineraryDetails.toCity}" class="border border-gray-300 p-1 inline-block"  /></td>
 
          </th:block></tr>
 
       <tr>
-         <th>TRAVEL START DATE</th>
+         <th class="block py-2 font-small mt-4">TRAVEL START DATE</th>
          <th:block th:each = "itineraryDetails : ${itineraryDetails}">
-            <td><input type = "text" name = "travelStartDateTime" th:value = "${itineraryDetails.travelStartDateTime}" th:field="${itineraryDetails.travelStartDateTime}"  /></td>
+            <td><input type = "text" name = "travelStartDateTime" th:value = "${itineraryDetails.travelStartDateTime}" th:field="${itineraryDetails.travelStartDateTime}" class="border border-gray-300 p-1"  /></td>
 
          </th:block></tr>
 
-      <th>TRAVEL END DATE</th>
+      <th class="block py-2 font-small mt-4">TRAVEL END DATE</th>
       <th:block th:each = "itineraryDetails : ${itineraryDetails}">
-         <td><input type = "text" name = "travelEndDateTime" th:value = "${itineraryDetails.travelEndDateTime}" th:field="${itineraryDetails.travelEndDateTime}"  /></td>
+         <td><input type = "text" name = "travelEndDateTime" th:value = "${itineraryDetails.travelEndDateTime}" th:field="${itineraryDetails.travelEndDateTime}" class="border border-gray-300 p-1" /></td>
 
       </th:block> </tr>
       <tr>
-         <th>DESTINATION NAME</th>
+         <th class="block py-2 font-small mt-4">DESTINATION NAME</th>
          <th:block th:each = "itineraryDetails : ${itineraryDetails}" >
 
-            <td>  <input type = "text" name = "name" th:value = "${itineraryDetails.name.split(',')[1]}"  /><br /></td>
+            <td class="text-left">  <input type = "text" name = "name" th:value = "${itineraryDetails.name.split(',')[1]}" class="border border-gray-300 p-1"/></td>
 
          </th:block></tr>
 
 
    </table>
-   <button type = "Submit" > Update </button>
+   <button type = "Submit" class=" mx-auto block border border-blue-500 bg-blue-600 hover:bg-blue-500 w-1/4 p-4 my-2 py-2 font-small text-white mt-4"> Update </button>
 </form>
-<h3><a href = "http://localhost:8080/itineraries">BACK TO ITINERARIES</a></h3>
+<h3><a href = "http://localhost:8080/itineraries" class="text-blue-900 underline ml-4" >BACK TO ITINERARIES</a></h3>
 </body>
 </html>
 
